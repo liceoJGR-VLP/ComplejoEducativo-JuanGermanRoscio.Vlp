@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información Institucional - Liceo Juan Germán Roscio</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* --- ESTILOS PADRE (Heredados exactamente de tu Inicio) --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --azul-header: #133260;
+            --crema-fondo: #fbf8f0;
+            --texto-principal: #2d2d2d;
+            --dorado-link: #d2bc7a;
+        }
+
+        html, body {
+            width: 100%;
+            background-color: var(--crema-fondo);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--texto-principal);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--azul-header);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 4%;
+            height: 70px;
+            width: 100%;
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            background-color: #ffffff;
+            width: 24px;
+            height: 2.5px;
+            display: block;
+        }
+
+        header .logo {
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            gap: 12px;
+        }
+
+        header .logo img {
+            height: 46px;
+            width: auto;
+            background-color: white;
+            padding: 2px;
+            border-radius: 2px;
+        }
+
+        header .logo h1 {
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 400;
+            text-align: right;
+            line-height: 1.2;
+        }
+
+        .menu-desplegable {
+            position: fixed;
+            top: 0;
+            left: -100%;             
+            width: 100%;
+            height: 100vh;
+            background-color: var(--crema-fondo); 
+            z-index: 9999;           
+            transition: left 0.4s ease; 
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-desplegable.active {
+            left: 0;                 
+        }
+
+        .menu-header {
+            background-color: var(--azul-header);
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 4%;
+            width: 100%;
+        }
+
+        .close-menu {
+            color: #ffffff;
+            font-size: 2.2rem;
+            cursor: pointer;
+            font-weight: 300;
+            line-height: 1;
+        }
+
+        .logo-menu {
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-menu h1 {
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 400;
+            text-align: right;
+            line-height: 1.2;
+        }
+
+        .logo-menu img {
+            height: 46px;
+            width: auto;
+        }
+    
+        .menu-links {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .menu-links a {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 22px 0;
+            color: #000000;
+            text-decoration: none;
+            font-size: 1.6rem;
+            font-weight: 400;
+            letter-spacing: 1.5px;
+            border-bottom: 1px solid #cbd5e1;
+            font-family: serif;
+            transition: background-color 0.2s;
+        }
+
+        .menu-links a:hover, .menu-links a:active {
+            background-color: #f1ede2; 
+        }
+
+        /* --- APARTADO PROPIO DE INFORMACIÓN (Su propia estructura) --- */
+        main#informacion {
+            width: 90%;
+            max-width: 850px;
+            margin: 30px auto;
+            padding: 25px 22px;
+            background-color: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 2px 14px rgba(0,0,0,0.06);
+        }
+
+        main#informacion h2 {
+            font-size: 1.65rem;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #cbd5e1;
+            margin: 15px 0;
+        }
+
+        main#informacion p.intro {
+            text-align: justify;
+            font-size: 1.05rem;
+            margin-bottom: 25px;
+            color: #333333;
+        }
+
+        /* Contenedor de bloques informativos */
+        .seccion-info {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        /* Bloques de tarjetas informativas */
+        .bloque-info {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 22px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.04);
+        }
+
+        .bloque-info h3 {
+            font-size: 1.3rem;
+            color: var(--azul-header);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            border-bottom: 1px solid #f1ede2;
+            padding-bottom: 6px;
+        }
+
+        .bloque-info h3 i {
+            font-size: 1.15rem;
+        }
+
+        /* Listas estilizadas de requisitos o datos */
+        .bloque-info ul {
+            list-style: none;
+            padding-left: 5px;
+        }
+
+        .bloque-info ul li {
+            position: relative;
+            padding-left: 22px;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            color: #333333;
+            text-align: justify;
+        }
+
+        /* Check elegante personalizado para las listas */
+        .bloque-info ul li::before {
+            content: "\f00c";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--dorado-link);
+            font-size: 0.9rem;
+        }
+
+        /* --- BOTONES DE RETORNO Y FOOTER (Exactamente iguales) --- */
+        .botones {
+            margin-top: 25px;
+        }
+
+        .botones a {
+            color: var(--dorado-link);
+            text-decoration: underline;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        footer {
+            width: 100%;
+            background-color: var(--crema-fondo);
+            border-top: 1px solid #cbd5e1;
+            padding: 30px 6%;
+            margin-top: 60px;
+        }
+
+        footer .contacto {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-logo {
+            height: 45px;
+            width: auto;
+        }
+
+        .footer-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #333333;
+        }
+
+        .footer-item i {
+            color: #133260; 
+            font-size: 1.1rem;
+        }
+
+        @media (min-width: 769px) {
+            footer .contacto {
+                flex-direction: row;
+                justify-content: space-between;
+                flex-wrap: nowrap;
+            }
+            .footer-item {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            footer .contacto {
+                flex-direction: row;
+                flex-wrap: wrap;       
+                justify-content: center; 
+                gap: 20px 25px;      
+            }
+            
+            .footer-logo {
+                width: 100%;           
+                height: 45px;
+                object-fit: contain;
+                margin-bottom: 5px;
+            }
+
+            .footer-item {
+                font-size: 0.85rem;    
+            }
+
+            .footer-item.schedule {
+                width: 100%;           
+                justify-content: center;
+                text-align: center;
+                margin-top: 5px;
+            }
+            
+            .footer-item span {
+                line-height: 1.3;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <div class="menu-desplegable" id="menuMovil">
+            <div class="menu-header">
+                <div class="close-menu" onclick="toggleMenu()">&times;</div>
+                <div class="logo-menu">
+                    <img src="logo.png" alt="Logo">
+                    <h1>Liceo<br>Juan Germán Roscio</h1>
+                </div>
+            </div>
+            
+            <div class="menu-links">
+                <a href="Index.html">INICIO</a>
+                <a href="Galería.html">GALERIA</a>
+                <a href="Noticias.html">NOTICIAS</a>
+                <a href="Información.html">INFORMACIÓN</a>
+                <a href="Biblioteca.html">BIBLIOTECA</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="logo">
+        <img src="logo.png" alt="Logotipo del Liceo Juan Germán Roscio">
+        <h1>Liceo<br>Juan Germán Roscio</h1>
+    </div>
+</header>
+
+<main id="informacion">
+    <hr>
+    <h2>Información Institucional</h2>
+    <hr>
+    
+    <p class="intro">
+        Bienvenido a la sección informativa de nuestra institución. Aquí encontrarás las pautas generales sobre el funcionamiento académico del plantel, la organización horaria y los recaudos necesarios para la tramitación de matrícula correspondiente al año escolar.
+    </p>
+
+    <section class="seccion-info">
+        
+        <article class="bloque-info">
+            <h3><i class="fas fa-file-signature"></i> Requisitos de Inscripción</h3>
+            <ul>
+                <li>Original y copia de la Partida de Nacimiento del estudiante (legible).</li>
+                <li>Copia de la Cédula de Identidad del alumno y del representante legal.</li>
+                <li>Certificado de calificaciones original del año inmediato anterior.</li>
+                <li>Dos (2) fotos de frente tipo carnet del estudiante y una (1) del representante.</li>
+                <li>Ficha de registro de inscripción interna debidamente completada.</li>
+            </ul>
+        </article>
+
+        <article class="bloque-info">
+            <h3><i class="fas fa-clock"></i> Organización de Turnos</h3>
+            <ul>
+                <li><strong>Turno Mañana (Educación Media General):</strong> Horario de actividades desde las 7:00 am hasta las 12:00 pm.</li>
+                <li><strong>Turno Tarde (Actividades Complementarias / Menciones):</strong> Bloque académico comprendido entre las 12:30 pm y las 5:00 pm.</li>
+                <li>Las evaluaciones remediales o defensas institucionales programadas se rigen estrictamente según el calendario del departamento de evaluación.</li>
+            </ul>
+        </article>
+
+        <article class="bloque-info">
+            <h3><i class="fas fa-school"></i> Infraestructura y Espacios</h3>
+            <ul>
+                <li>Aulas equipadas para las secciones correspondientes de 1er a 5to año.</li>
+                <li>Laboratorio de ciencias básicas y salas de cómputo para informática.</li>
+                <li>Cancha de usos múltiples para el desarrollo de actividades físicas y culturales.</li>
+                <li>Área de biblioteca institucional para consultas y préstamo de textos de estudio.</li>
+            </ul>
+        </article>
+
+    </section>
+    
+    <div class="botones">
+        <a href="Index.html">Volver al Inicio</a>
+    </div>
+</main>
+
+<footer>
+    <div class="contacto">
+        <img src="logo.png" alt="Escudo Footer" class="footer-logo">
+        <div class="footer-item"><i class="fas fa-at"></i> <span>@Liceo.JGR</span></div>
+        <div class="footer-item"><i class="fas fa-map-marker-alt"></i> <span>Av. Principal</span></div>
+        <div class="footer-item"><i class="fas fa-phone"></i> <span>+54 04243096172</span></div>
+        <div class="footer-item schedule">
+            <i class="fas fa-clock"></i> 
+            <span>Lunes a viernes: 7:00am/12:00pm - 12:30pm/5:00pm</span>
+        </div>
+    </div>
+</footer>
+
+<script>
+    function toggleMenu() {
+        const menu = document.getElementById('menuMovil');
+        menu.classList.toggle('active');
+    }
+</script>
+
+</body>
+</html>

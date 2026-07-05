@@ -1,0 +1,174 @@
+/* ==========================================================================
+   1. VARIABLES Y ESTILOS GENERALES
+   ========================================================================== */
+<link rel="stylesheet" href="index.html">
+:root {
+    --azul-oscuro: #102a43; /* El azul institucional del encabezado */
+    --crema-fondo: #fcfaf6; /* Fondo suave para la lectura */
+    --texto-oscuro: #2d3748;
+    --texto-suave: #627d98;
+    --dorado-link: #c5a059;  /* Color del enlace "Más información" */
+    --blanco: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: var(--crema-fondo);
+    color: var(--texto-oscuro);
+    line-height: 1.7;
+}
+
+/* ==========================================================================
+   2. HEADER (Encabezado Azul)
+   ========================================================================== */
+header {
+    background-color: var(--azul-oscuro);
+    color: var(--blanco);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 4%;
+    min-height: 75px;
+}
+
+/* Contenedor del Logo y el Título */
+header .logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+header .logo img {
+    height: 50px;
+    width: auto;
+}
+
+header .logo h1 {
+    font-size: 1.25rem;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    max-width: 200px; /* Para que rompa línea como en la foto ("Liceo / Juan Germán Roscio") */
+    line-height: 1.2;
+}
+
+/* Menú de navegación (Oculto en web por defecto si usas menú hamburguesa, 
+   o alineado a la izquierda si no) */
+.nav-links {
+    display: none; /* Nota: Se suele activar con JavaScript usando la clase .active */
+}
+
+/* Ajuste para las líneas del menú hamburguesa (las pusiste negras en línea, 
+   las cambiamos a blancas con CSS para que contrasten con el azul) */
+.menu-toggle span {
+    background-color: var(--blanco) !important; 
+}
+
+/* ==========================================================================
+   3. CONTENIDO PRINCIPAL (Reseña Histórica)
+   ========================================================================== */
+main#inicio {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* Quitamos las líneas <hr> rústicas por defecto y les damos sutileza o las ocultamos 
+   si prefieres el espacio en blanco limpio de la imagen */
+main#inicio hr {
+    border: none;
+    height: 1px;
+    background-color: transparent; /* Ocupan espacio pero no se ven, emulando tu diseño */
+    margin: 20px 0;
+}
+
+main#inicio h2 {
+    font-size: 2.1rem;
+    color: var(--texto-oscuro);
+    font-weight: 400;
+    margin-bottom: 30px;
+}
+
+main#inicio p {
+    text-align: justify; /* Clave para el efecto de bloque de texto impecable */
+    font-size: 1.05rem;
+    color: #334e68;
+    margin-bottom: 25px;
+}
+
+/* Enlace / Botón "Más Información" */
+.botones a {
+    color: var(--dorado-link);
+    text-decoration: underline;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.botones a:hover {
+    color: #8c6d31;
+}
+
+/* ==========================================================================
+   4. FOOTER (Pie de página modular)
+   ========================================================================== */
+footer {
+    background-color: var(--crema-fondo);
+    border-top: 1px solid #dae1e7;
+    padding: 30px 4%;
+    margin-top: 60px;
+}
+
+/* Ocultamos el h3 si quieres que sea idéntico a la imagen (donde solo va el escudo) */
+footer h3 {
+    display: none; 
+}
+
+/* Usamos CSS Grid para ordenar los 4 datos de contacto en una sola fila horizontal */
+footer .contacto {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas iguales */
+    gap: 20px;
+    align-items: center;
+}
+
+footer .contacto div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: var(--texto-oscuro);
+}
+
+/* Iconos de FontAwesome */
+footer .contacto div i {
+    color: var(--dorado-link); /* Color dorado/amarillo suave para los iconos */
+    font-size: 1.1rem;
+}
+
+/* ==========================================================================
+   5. RESPONSIVE (Para que se vea bien en teléfonos)
+   ========================================================================== */
+@media (max-width: 768px) {
+    header .logo h1 {
+        font-size: 1rem;
+    }
+
+    main#inicio h2 {
+        font-size: 1.6rem;
+    }
+
+    footer .contacto {
+        grid-template-columns: 1fr; /* Se apilan los datos uno abajo del otro en el celular */
+        gap: 15px;
+    }
+}
+
+

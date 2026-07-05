@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liceo Juan Germán Roscio</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --azul-header: #133260;
+            --crema-fondo: #fbf8f0;
+            --texto-principal: #2d2d2d;
+            --dorado-link: #d2bc7a;
+        }
+
+        html, body {
+            width: 100%;
+            background-color: var(--crema-fondo);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--texto-principal);
+            line-height: 1.6;
+        }
+
+         header {
+            background-color: var(--azul-header);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 4%;
+            height: 70px;
+            width: 100%;
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            background-color: #ffffff;
+            width: 24px;
+            height: 2.5px;
+            display: block;
+        }
+         header .logo {
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            gap: 12px;
+        }
+
+        header .logo img {
+            height: 46px;
+            width: auto;
+            background-color: white;
+            padding: 2px;
+            border-radius: 2px;
+        }
+
+        header .logo h1 {
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 400;
+            text-align: right;
+            line-height: 1.2;
+        }
+
+        .menu-desplegable {
+            position: fixed;
+            top: 0;
+            left: -100%;             
+            width: 100%;
+            height: 100vh;
+            background-color: var(--crema-fondo); 
+            z-index: 9999;           
+            transition: left 0.4s ease; 
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-desplegable.active {
+            left: 0;                 
+        }
+
+        .menu-header {
+            background-color: var(--azul-header);
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 4%;
+            width: 100%;
+        }
+
+         .close-menu {
+            color: #ffffff;
+            font-size: 2.2rem;
+            cursor: pointer;
+            font-weight: 300;
+            line-height: 1;
+        }
+
+        .logo-menu {
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-menu h1 {
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 400;
+            text-align: right;
+            line-height: 1.2;
+        }
+
+        .logo-menu img {
+            height: 46px;
+            width: auto;
+        }
+    
+        .menu-links {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .menu-links a {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 22px 0;         /* Espaciado generoso vertical */
+            color: #000000;          /* Letras totalmente negras */
+            text-decoration: none;
+            font-size: 1.6rem;       /* Letra grande en mayúsculas */
+            font-weight: 400;
+            letter-spacing: 1.5px;   /* Separación elegante entre letras */
+            border-bottom: 1px solid #cbd5e1; /* Línea gris delgada inferior */
+            font-family: serif;      /* Tipografía con serif estilizada para el menú */
+            transition: background-color 0.2s;
+        }
+
+        .menu-links a:hover, .menu-links a:active {
+            background-color: #f1ede2; 
+        }
+
+        .banner-liceo {
+            width: 100%;
+            max-width: 100%;
+            display: block;
+            overflow: hidden;
+            margin: 18px 0;
+        }
+
+        .banner-liceo img {
+            width: 94%;
+            max-width: 900px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 12px;
+        }
+
+        main#inicio {
+            width: 90%;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 25px 22px;
+            background-color: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 2px 14px rgba(0,0,0,0.06);
+        }
+
+        main#inicio h2 {
+            font-size: 1.65rem;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+        }
+
+        main#inicio p {
+            text-align: justify; 
+            font-size: 1.02rem;
+            margin-bottom: 18px;
+            color: #333333;
+        }
+
+        .botones {
+            margin-top: 25px;
+        }
+
+        .botones a {
+            color: var(--dorado-link);
+            text-decoration: underline;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        footer {
+            width: 100%;
+            background-color: var(--crema-fondo);
+            border-top: 1px solid #cbd5e1;
+            padding: 30px 6%;
+            margin-top: 60px;
+        }
+
+        footer .contacto {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-logo {
+            height: 45px;
+            width: auto;
+        }
+
+        .footer-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #333333;
+        }
+
+        .footer-item i {
+            color: #133260; 
+            font-size: 1.1rem;
+        }
+
+        @media (min-width: 769px) {
+            footer .contacto {
+                flex-direction: row;
+                justify-content: space-between;
+                flex-wrap: nowrap;
+            }
+            .footer-item {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            footer .contacto {
+                flex-direction: row;
+                flex-wrap: wrap;       
+                justify-content: center; 
+                gap: 20px 25px;      
+            }
+            
+            .footer-logo {
+                width: 100%;           
+                height: 45px;
+                object-fit: contain;
+                margin-bottom: 5px;
+            }
+
+            .footer-item {
+                font-size: 0.85rem;    
+            }
+
+            .footer-item.schedule {
+                width: 100%;           
+                justify-content: center;
+                text-align: center;
+                margin-top: 5px;
+            }
+            
+            .footer-item span {
+                line-height: 1.3;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <div class="menu-desplegable" id="menuMovil">
+            <div class="menu-header">
+                <div class="close-menu" onclick="toggleMenu()">&times;</div>
+                <div class="logo-menu">
+                    <img src="logo.png" alt="Logo">
+                    <h1>Liceo<br>Juan Germán Roscio</h1>
+                </div>
+            </div>
+            
+            <div class="menu-links">
+                <a href="index.html">INICIO</a>
+                <a href="Galería.html">GALERIA</a>
+                <a href="Noticias.html">NOTICIAS</a>
+                <a href="Información.html">INFORMACIÓN</a>
+                <a href="Biblioteca.html">BIBLIOTECA</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="logo">
+        <img src="logo.png" alt="Logotipo del Liceo Juan Germán Roscio">
+        <h1>Liceo<br>Juan Germán Roscio</h1>
+    </div>
+</header>
+
+<div class="banner-liceo">
+    <img src="liceo.png" alt="Misión Sucre Aldea Juan Germán Roscio">
+</div>
+
+<main id="inicio">
+    <h2>Reseña histórica: Liceo JGR</h2>
+    
+    <p>
+        El Liceo Juan Germán Roscio es una institución baluarte del estado Guárico, cuya trayectoria se remonta a su fundación en el año 1961. 
+        Nacido de la visión humanista y el profundo compromiso social de Monseñor Rafael Chacín Soto, el plantel fue concebido para ofrecer a la juventud de Valle de la Pascua una formación integral, basada en los pilares de la Justicia Social y la Fe Cristiana.
+        Desde sus inicios en la histórica sede de la calle El Descanso, el liceo ha sido un espacio de puertas abiertas para la formación de ciudadanos críticos y ejemplares.
+    </p>
+
+    <p>
+        Su nombre rinde tributo al ilustre prócer Juan Germán Roscio Nieves, reflejando el espíritu de libertad e intelectualidad que caracteriza a nuestra comunidad educativa.
+        A través de las décadas, nuestra institución ha logrado consolidar una tradición de excelencia académica, siendo el hogar donde miles de jóvenes han forjado sus metas bajo la guía de docentes comprometidos con el desarrollo del país.
+        Hoy, el Liceo "Juan Germán Roscio" no solo representa un centro de enseñanza, sino un patrimonio cultural vivo que custodia la memoria histórica de nuestra ciudad y sigue proyectando su legado hacia las nuevas generaciones.
+    </p>
+    
+    <div class="botones">
+        <a href="Información.html">Más información</a>
+    </div>
+</main>
+
+<footer>
+    <div class="contacto">
+        <img src="logo.png" alt="Escudo Footer" class="footer-logo">
+        <div class="footer-item"><i class="fas fa-at"></i> <span>@Liceo.JGR</span></div>
+        <div class="footer-item"><i class="fas fa-map-marker-alt"></i> <span>Av.</span></div>
+        <div class="footer-item"><i class="fas fa-phone"></i> <span>+54 04243096172</span></div>
+        <div class="footer-item schedule">
+            <i class="fas fa-clock"></i> 
+            <span>Lunes a viernes: 7:00am/12:00pm - 12:30pm/5:00pm</span>
+        </div>
+    </div>
+</footer>
+
+<script>
+    function toggleMenu() {
+        const menu = document.getElementById('menuMovil');
+        menu.classList.toggle('active');
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Administrativo - Liceo Juan Germán Roscio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --azul-header: #133260;
+            --crema-fondo: #fbf8f0;
+            --texto-principal: #2d2d2d;
+            --dorado-link: #d2bc7a;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100%;
+            background-color: var(--crema-fondo);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--texto-principal);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--azul-header);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 4%;
+            height: 70px;
+            width: 100%;
+        }
+
+        header .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        header .logo img {
+            height: 46px;
+            width: auto;
+            background-color: white;
+            padding: 2px;
+            border-radius: 2px;
+        }
+
+        header .logo h1 {
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        header .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        header .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        #login-container {
+            width: 90%;
+            max-width: 400px;
+            margin: 60px auto;
+        }
+
+        .login-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .login-icon {
+            font-size: 2.2rem;
+            color: var(--azul-header);
+            margin-bottom: 15px;
+        }
+
+        .login-card h2 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            color: var(--azul-header);
+        }
+
+        .login-card p {
+            font-size: 0.9rem;
+            color: #555555;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .input-group i {
+            color: var(--azul-header);
+        }
+
+        .input-group input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 0.95rem;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--azul-header);
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-login:hover {
+            background-color: #0d2447;
+        }
+    </style>
+</head>
+<body class="body-login">
+  
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="Liceo LJGR">
+            <h1>Liceo Juan German Roscio</h1>
+        </div>
+        <nav>
+            <div class="nav-links">
+                <a href="index.html">Volver al Inicio</a>
+            </div>
+        </nav>
+    </header>
+
+    <main id="login-container">
+        <div class="login-card">
+            <div class="login-icon">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <h2>Panel Administrativo</h2>
+            <p>Verifica tu identidad para gestionar el contenido</p>
+
+            <form id="form-login">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="email" id="email" name="email" placeholder="Correo electrónico" required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña" required>
+                </div>
+
+                <button type="submit" class="btn-login" id="btn-login">Iniciar Sesión</button>
+
+                <p id="login-error" style="color:#b91c1c; font-size:0.85rem; margin-top:12px; display:none;"></p>
+            </form>
+            
+            <div class="login-footer">
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+        import {
+            getAuth,
+            signInWithEmailAndPassword,
+            onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+
+        // Configuración de tu proyecto Firebase (liceo-jgr)
+        const firebaseConfig = {
+            apiKey: "AIzaSyBCt3kJHxHP76a2HcvOqzjsS2nXZclpKv8",
+            authDomain: "liceo-jgr.firebaseapp.com",
+            projectId: "liceo-jgr",
+            storageBucket: "liceo-jgr.firebasestorage.app",
+            messagingSenderId: "266825809601",
+            appId: "1:266825809601:web:bd1da9e6ca229f12fd5e40"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        const form = document.getElementById('form-login');
+        const btnLogin = document.getElementById('btn-login');
+        const errorMsg = document.getElementById('login-error');
+
+        // Mensajes de error en español según el código que devuelve Firebase
+        function mensajeError(codigo) {
+            switch (codigo) {
+                case 'auth/invalid-email':
+                    return 'El correo electrónico no es válido.';
+                case 'auth/user-not-found':
+                case 'auth/invalid-credential':
+                case 'auth/wrong-password':
+                    return 'Correo o contraseña incorrectos.';
+                case 'auth/too-many-requests':
+                    return 'Demasiados intentos fallidos. Intenta de nuevo más tarde.';
+                default:
+                    return 'No se pudo iniciar sesión. Intenta de nuevo.';
+            }
+        }
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            errorMsg.style.display = 'none';
+
+            const email = document.getElementById('email').value.trim();
+            const contrasena = document.getElementById('contrasena').value;
+
+            btnLogin.disabled = true;
+            btnLogin.textContent = 'Verificando...';
+
+            signInWithEmailAndPassword(auth, email, contrasena)
+                .then(function () {
+                    // Login correcto: por ahora avisamos aquí.
+                    // Cuando exista el panel real, aquí haremos:
+                    // window.location.href = "panel-admin.html";
+                    alert('¡Bienvenido! Sesión iniciada correctamente.');
+                })
+                .catch(function (error) {
+                    errorMsg.textContent = mensajeError(error.code);
+                    errorMsg.style.display = 'block';
+                })
+                .finally(function () {
+                    btnLogin.disabled = false;
+                    btnLogin.textContent = 'Iniciar Sesión';
+                });
+        });
+
+        // Si ya hay una sesión activa (por ejemplo, se recarga la página),
+        // lo dejamos registrado en consola por ahora.
+        onAuthStateChanged(auth, function (user) {
+            if (user) {
+                console.log('Sesión activa:', user.email);
+            }
+        });
+    </script>
+
+</body>
+</html>
