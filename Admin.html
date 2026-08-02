@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso Administrativo - Liceo Juan Germán Roscio</title>
+    <title>Login - Complejo Educativo Juan Germán Roscio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
@@ -145,7 +145,7 @@
     <header>
         <div class="logo">
             <img src="logo.png" alt="Liceo LJGR">
-            <h1>Liceo Juan German Roscio</h1>
+            <h1>Complejo Educativo Juan German Roscio</h1>
         </div>
         <nav>
             <div class="nav-links">
@@ -191,7 +191,6 @@
             onAuthStateChanged
         } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
-        // Configuración de tu proyecto Firebase (liceo-jgr)
         const firebaseConfig = {
             apiKey: "AIzaSyBCt3kJHxHP76a2HcvOqzjsS2nXZclpKv8",
             authDomain: "liceo-jgr.firebaseapp.com",
@@ -208,7 +207,6 @@
         const btnLogin = document.getElementById('btn-login');
         const errorMsg = document.getElementById('login-error');
 
-        // Mensajes de error en español según el código que devuelve Firebase
         function mensajeError(codigo) {
             switch (codigo) {
                 case 'auth/invalid-email':
@@ -236,9 +234,6 @@
 
             signInWithEmailAndPassword(auth, email, contrasena)
                 .then(function () {
-                    // Login correcto: por ahora avisamos aquí.
-                    // Cuando exista el panel real, aquí haremos:
-                    // window.location.href = "panel-admin.html";
                     alert('¡Bienvenido! Sesión iniciada correctamente.');
                 })
                 .catch(function (error) {
@@ -251,8 +246,6 @@
                 });
         });
 
-        // Si ya hay una sesión activa (por ejemplo, se recarga la página),
-        // lo dejamos registrado en consola por ahora.
         onAuthStateChanged(auth, function (user) {
             if (user) {
                 console.log('Sesión activa:', user.email);
