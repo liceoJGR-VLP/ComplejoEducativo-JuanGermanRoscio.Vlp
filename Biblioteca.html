@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biblioteca - Liceo Juan Germán Roscio</title>
+    <title>Biblioteca - Complejo Educativo Juan Germán Roscio</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        /* --- ESTILOS PADRE (Heredados exactamente de tu Inicio) --- */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -69,7 +68,7 @@
         header .logo img {
             height: 46px;
             width: auto;
-            background-color: white;
+            background-color: transparent;
             padding: 2px;
             border-radius: 2px;
         }
@@ -135,6 +134,7 @@
         .logo-menu img {
             height: 46px;
             width: auto;
+            background-color: transparent;
         }
     
         .menu-links {
@@ -163,7 +163,6 @@
             background-color: #f1ede2; 
         }
 
-        /* --- APARTADO PROPIO DE LA BIBLIOTECA (Su propia personalidad) --- */
         main#biblioteca {
             width: 90%;
             max-width: 850px;
@@ -205,7 +204,6 @@
             gap: 8px;
         }
 
-        /* --- TABLAS ESTILIZADAS Y RESPONSIVAS --- */
         .tabla-biblioteca {
             width: 100%;
             border-collapse: collapse;
@@ -238,14 +236,12 @@
             border-bottom: none;
         }
 
-        /* Enlaces de descarga usando el color dorado */
         .btn-descargar {
             color: var(--dorado-link);
             text-decoration: underline;
             font-weight: 500;
         }
 
-        /* Adaptación para pantallas de teléfonos (Scroll en tablas muy anchas) */
         @media (max-width: 600px) {
             .categoria-materia {
                 width: 100%;
@@ -256,7 +252,6 @@
             }
         }
 
-        /* --- CUADRO DE SUBIR EXCLUSIVO DE ADMIN --- */
         .admin-upload {
             margin-bottom: 25px;
         }
@@ -337,7 +332,6 @@
             background-color: #218838;
         }
 
-        /* --- BOTONES DE RETORNO Y FOOTER (Exactamente iguales) --- */
         .botones {
             margin-top: 25px;
         }
@@ -440,12 +434,12 @@
                 <div class="close-menu" onclick="toggleMenu()">&times;</div>
                 <div class="logo-menu">
                     <img src="logo.png" alt="Logo">
-                    <h1>Liceo<br>Juan Germán Roscio</h1>
+                    <h1>Complejo Educativo<br>Juan Germán Roscio</h1>
                 </div>
             </div>
             
             <div class="menu-links">
-                <a href="Index.html">INICIO</a>
+                <a href="index.html">INICIO</a>
                 <a href="Galería.html">GALERIA</a>
                 <a href="Noticias.html">NOTICIAS</a>
                 <a href="Información.html">INFORMACIÓN</a>
@@ -456,7 +450,7 @@
 
     <div class="logo">
         <img src="logo.png" alt="Logotipo del Liceo Juan Germán Roscio">
-        <h1>Liceo<br>Juan Germán Roscio</h1>
+        <h1>Complejo Educativo<br>Juan Germán Roscio</h1>
     </div>
 </header>
 
@@ -464,45 +458,6 @@
     <hr>
     <h2>Biblioteca Digital</h2>
     <hr>
-
-    <?php
-    // 1. CONTROL DE ACCESO
-    session_start();
-    
-    // 2. FILTRO DE SEGURIDAD: Solo el rol admin puede inyectar nuevas guías
-    if (isset($_SESSION['usuario']) && $_SESSION['usuario'] == 'admin') {
-    ?>
-        <section class="admin-upload">
-            <div class="cuadro-subir">
-                <div class="icono-subir"><i class="fas fa-file-upload"></i></div>
-                <p>Subir Guía o Recurso</p>
-                <form action="subir_biblioteca.php" method="POST" enctype="multipart/form-data">
-                    <input type="text" name="nombre_doc" placeholder="Título del documento (ej. Guía de Álgebra)..." required>
-                    
-                    <select name="materia" required>
-                        <option value="" disabled selected>Selecciona la Materia</option>
-                        <option value="Matemáticas">Matemáticas</option>
-                        <option value="Castellano">Castellano</option>
-                        <option value="Biología">Biología</option>
-                        <option value="Física">Física</option>
-                        <option value="Química">Química</option>
-                        <option value="Inglés">Inglés</option>
-                        <option value="GHC">GHC</option>
-                    </select>
-
-                    <div>
-                        <label for="doc-upload" class="btn-subir-label">Seleccionar Word (.doc, .docx)</label>
-                        <input type="file" id="doc-upload" name="archivo" accept=".doc, .docx" style="display:none;" required>
-                    </div>
-                    
-                    <button type="submit" class="btn-publicar">Publicar Documento</button>
-                </form>
-            </div>
-        </section>
-    <?php 
-    } 
-    ?>
-
     <section class="biblioteca-materias">
 
         <div class="categoria-materia">
@@ -568,7 +523,7 @@
     </section>
 
     <div class="botones">
-        <a href="Index.html">Volver al Inicio</a>
+        <a href="index.html">Volver al Inicio</a>
     </div>
 </main>
 
@@ -576,7 +531,7 @@
     <div class="contacto">
         <img src="logo.png" alt="Escudo Footer" class="footer-logo">
         <div class="footer-item"><i class="fas fa-at"></i> <span>@Liceo.JGR</span></div>
-        <div class="footer-item"><i class="fas fa-map-marker-alt"></i> <span>Av. Principal</span></div>
+        <div class="footer-item"><i class="fas fa-map-marker-alt"></i> <span>Calle Retumbo</span></div>
         <div class="footer-item"><i class="fas fa-phone"></i> <span>+54 04243096172</span></div>
         <div class="footer-item schedule">
             <i class="fas fa-clock"></i> 
