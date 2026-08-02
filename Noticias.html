@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Noticias - Liceo Juan Germán Roscio</title>
+    <title>Noticias - Complejo Educativo Juan Germán Roscio</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        /* --- ESTILOS PADRE (Heredados exactamente de tu Inicio) --- */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -69,7 +68,7 @@
         header .logo img {
             height: 46px;
             width: auto;
-            background-color: white;
+            background-color: transparent;
             padding: 2px;
             border-radius: 2px;
         }
@@ -135,6 +134,7 @@
         .logo-menu img {
             height: 46px;
             width: auto;
+            background-color: transparent;
         }
     
         .menu-links {
@@ -163,10 +163,9 @@
             background-color: #f1ede2; 
         }
 
-        /* --- APARTADO PROPIO DE NOTICIAS (Su propia personalidad) --- */
         main#noticias {
             width: 90%;
-            max-width: 800px; /* Alineado al ancho del texto del inicio */
+            max-width: 800px; 
             margin: 30px auto;
             padding: 25px 22px;
             background-color: #ffffff;
@@ -188,15 +187,12 @@
             margin: 15px 0;
         }
 
-        /* Contenedor vertical de las noticias */
         .grid-noticias {
             display: flex;
             flex-direction: column;
             gap: 25px;
             padding: 15px 0;
         }
-
-        /* Cada tarjeta de noticia */
         .noticia {
             background: #ffffff;
             border: 1px solid #cbd5e1;
@@ -223,7 +219,6 @@
             text-align: justify;
         }
 
-        /* Pequeña etiqueta elegante para la fecha */
         .fecha-badge {
             background-color: #f1ede2;
             color: #133260;
@@ -235,7 +230,6 @@
             border: 1px solid #cbd5e1;
         }
 
-        /* Enlaces de "Leer más" estilizados con el dorado */
         .leer-mas {
             color: var(--dorado-link);
             text-decoration: underline;
@@ -244,7 +238,6 @@
             align-self: flex-start;
         }
 
-        /* --- CUADRO DE SUBIR EXCLUSIVO DE ADMIN --- */
         .cuadro-subir {
             background: #fdfdfd;
             border: 2px dashed #b8c2cc;
@@ -304,7 +297,6 @@
             background-color: #218838;
         }
 
-        /* --- BOTONES DE RETORNO Y FOOTER (Exactamente iguales) --- */
         .botones {
             margin-top: 25px;
         }
@@ -358,7 +350,6 @@
             .footer-item {
                 font-size: 0.9rem;
             }
-            /* En pantallas grandes, la fecha se puede mover a la esquina superior derecha */
             .fecha-badge {
                 position: absolute;
                 top: 20px;
@@ -413,12 +404,12 @@
                 <div class="close-menu" onclick="toggleMenu()">&times;</div>
                 <div class="logo-menu">
                     <img src="logo.png" alt="Logo">
-                    <h1>Liceo<br>Juan Germán Roscio</h1>
+                    <h1>Complejo Educativo<br>Juan Germán Roscio</h1>
                 </div>
             </div>
             
             <div class="menu-links">
-                <a href="Index.html">INICIO</a>
+                <a href="index.html">INICIO</a>
                 <a href="Galería.html">GALERIA</a>
                 <a href="Noticias.html">NOTICIAS</a>
                 <a href="Información.html">INFORMACIÓN</a>
@@ -429,7 +420,7 @@
 
     <div class="logo">
         <img src="logo.png" alt="Logotipo del Liceo Juan Germán Roscio">
-        <h1>Liceo<br>Juan Germán Roscio</h1>
+        <h1>Complejo Educativo<br>Juan Germán Roscio</h1>
     </div>
 </header>
 
@@ -440,28 +431,6 @@
 
     <section class="grid-noticias">
         
-        <?php
-        // 1. CONTROL DE ACCESO (Iniciamos sesión en el servidor)
-        session_start();
-        
-        // 2. FILTRO DE ROL: Solo si es admin se dibuja el formulario de subida
-        if (isset($_SESSION['usuario']) && $_SESSION['usuario'] == 'admin') {
-        ?>
-            <div class="noticia cuadro-subir">
-                <div class="icono-subir"><i class="fas fa-bullhorn"></i></div>
-                <p>Publicar Noticia</p>
-                
-                <form action="subir_noticia.php" method="POST">
-                    <input type="text" name="titulo" placeholder="Título de la noticia..." required>
-                    <textarea name="contenido" placeholder="Escribe aquí..." rows="4" required></textarea>
-                    <input type="date" name="fecha" required>
-                    <button type="submit">Publicar en Cartelera</button>
-                </form>
-            </div>
-        <?php 
-        } 
-        ?>
-
         <article class="noticia">
             <div class="fecha-badge">26 Abr 2026</div>    
             <h3>Proceso de Inscripciones</h3>
@@ -479,7 +448,7 @@
     </section>
 
     <div class="botones">
-        <a href="Index.html">Volver al Inicio</a>
+        <a href="index.html">Volver al Inicio</a>
     </div>
 </main>
 
@@ -487,7 +456,7 @@
     <div class="contacto">
         <img src="logo.png" alt="Escudo Footer" class="footer-logo">
         <div class="footer-item"><i class="fas fa-at"></i> <span>@Liceo.JGR</span></div>
-        <div class="footer-item"><i class="fas fa-map-marker-alt"></i> <span>Av. Principal</span></div>
+        <div class="footer-item"><i class="fas fa-map-marker-alt"></i> <span>Calle Retumbo</span></div>
         <div class="footer-item"><i class="fas fa-phone"></i> <span>+54 04243096172</span></div>
         <div class="footer-item schedule">
             <i class="fas fa-clock"></i> 
