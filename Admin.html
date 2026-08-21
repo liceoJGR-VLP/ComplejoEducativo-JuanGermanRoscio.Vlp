@@ -83,14 +83,13 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 0.9rem;
-            display: none; /* Oculto por defecto */
+            display: none; 
         }
         
         .btn-logout:hover {
             background-color: #991b1b;
         }
 
-        /* ESTILOS DEL LOGIN */
         #login-container {
             width: 90%;
             max-width: 400px;
@@ -161,9 +160,8 @@
             background-color: #0d2447;
         }
 
-        /* ESTILOS DEL PANEL ADMINISTRATIVO */
         #admin-container {
-            display: none; /* Oculto por defecto */
+            display: none; 
             padding: 40px 4%;
             max-width: 1200px;
             margin: 0 auto;
@@ -245,7 +243,6 @@
         </nav>
     </header>
 
-    <!-- SECCIÓN 1: LOGIN (Se oculta si ya inició sesión) -->
     <main id="login-container">
         <div class="login-card">
             <div class="login-icon">
@@ -271,7 +268,6 @@
         </div>
     </main>
 
-    <!-- SECCIÓN 2: PANEL DE CONTROL (Se muestra solo si inició sesión) -->
     <main id="admin-container">
         <div class="dashboard-header">
             <h2>Bienvenido al Panel de Control</h2>
@@ -287,7 +283,6 @@
                 <button class="btn-action">Gestionar Noticias</button>
             </div>
 
-            <!-- Tarjeta Galería -->
             <div class="admin-card">
                 <i class="fas fa-images"></i>
                 <h3>Galería</h3>
@@ -295,7 +290,6 @@
                 <button class="btn-action">Gestionar Galería</button>
             </div>
 
-            <!-- Tarjeta Biblioteca -->
             <div class="admin-card">
                 <i class="fas fa-book"></i>
                 <h3>Biblioteca Digital</h3>
@@ -305,7 +299,6 @@
         </div>
     </main>
 
-    <!-- SCRIPTS DE FIREBASE Y LÓGICA -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
         import {
@@ -327,7 +320,6 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // Referencias a los elementos del HTML
         const form = document.getElementById('form-login');
         const btnLogin = document.getElementById('btn-login');
         const errorMsg = document.getElementById('login-error');
@@ -337,7 +329,6 @@
         const btnLogout = document.getElementById('btn-logout');
         const userEmailDisplay = document.getElementById('user-email-display');
 
-        // Función para traducir errores
         function mensajeError(codigo) {
             switch (codigo) {
                 case 'auth/invalid-email': return 'El correo electrónico no es válido.';
@@ -349,7 +340,6 @@
             }
         }
 
-        // Lógica de Inicio de Sesión
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             errorMsg.style.display = 'none';
@@ -371,27 +361,25 @@
                 });
         });
 
-        // Lógica de Cerrar Sesión
+        
         btnLogout.addEventListener('click', function() {
             signOut(auth).catch(function(error) {
                 console.error("Error al cerrar sesión:", error);
             });
         });
 
-        // Observador: ¿Está iniciada la sesión o no?
         onAuthStateChanged(auth, function (user) {
             if (user) {
-                // SESIÓN INICIADA: Ocultar login, mostrar panel
+                
                 loginContainer.style.display = 'none';
                 adminContainer.style.display = 'block';
                 btnLogout.style.display = 'block';
                 userEmailDisplay.textContent = "Sesión activa: " + user.email;
             } else {
-                // SIN SESIÓN: Mostrar login, ocultar panel
                 loginContainer.style.display = 'block';
                 adminContainer.style.display = 'none';
                 btnLogout.style.display = 'none';
-                form.reset(); // Limpiar el formulario
+                form.reset(); 
             }
         });
     </script>
