@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Información Institucional - Complejo Educativo Juan Germán Roscio</title>
-    
+   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
@@ -84,18 +84,18 @@
         .menu-desplegable {
             position: fixed;
             top: 0;
-            left: -100%;             
+            left: -100%;            
             width: 100%;
             height: 100vh;
-            background-color: var(--crema-fondo); 
-            z-index: 9999;           
-            transition: left 0.4s ease; 
+            background-color: var(--crema-fondo);
+            z-index: 9999;          
+            transition: left 0.4s ease;
             display: flex;
             flex-direction: column;
         }
 
         .menu-desplegable.active {
-            left: 0;                 
+            left: 0;                
         }
 
         .menu-header {
@@ -134,9 +134,9 @@
         .logo-menu img {
             height: 46px;
             width: auto;
-            background-color: transparent:
+            background-color: transparent;
         }
-    
+   
         .menu-links {
             display: flex;
             flex-direction: column;
@@ -160,7 +160,7 @@
         }
 
         .menu-links a:hover, .menu-links a:active {
-            background-color: #f1ede2; 
+            background-color: #f1ede2;
         }
 
         main#informacion {
@@ -193,6 +193,7 @@
             margin-bottom: 25px;
             color: #333333;
         }
+        
         .seccion-info {
             display: flex;
             flex-direction: column;
@@ -206,6 +207,7 @@
             border-radius: 6px;
             padding: 22px;
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.04);
+            position: relative;
         }
 
         .bloque-info h3 {
@@ -248,6 +250,110 @@
             font-size: 0.9rem;
         }
 
+        /* Panel de administración para agregar bloques nuevos si se desea */
+        .admin-controls {
+            display: none;
+            background: #fdfdfd;
+            border: 2px dashed #b8c2cc;
+            padding: 25px 20px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+        }
+
+        .admin-controls h3 {
+            color: var(--azul-header);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .admin-controls form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .admin-controls input[type="text"],
+        .admin-controls textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            background-color: #fafafa;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .admin-controls textarea {
+            resize: vertical;
+        }
+
+        .admin-controls button[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 11px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: background-color 0.2s;
+        }
+
+        .admin-controls button[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        /* Controles de edición y eliminación por bloque */
+        .admin-block-controls {
+            display: none;
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 1px dashed #cbd5e1;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn-admin-accion {
+            background-color: #133260;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-admin-accion.eliminar {
+            background-color: #dc3545;
+        }
+
+        .btn-admin-accion:hover {
+            opacity: 0.9;
+        }
+
+        .btn-flotante-logout {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #b91c1c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            z-index: 9999;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            font-family: inherit;
+            font-weight: 600;
+            display: none;
+        }
+
         .botones {
             margin-top: 25px;
         }
@@ -288,7 +394,7 @@
         }
 
         .footer-item i {
-            color: #133260; 
+            color: #133260;
             font-size: 1.1rem;
         }
 
@@ -306,13 +412,13 @@
         @media (max-width: 768px) {
             footer .contacto {
                 flex-direction: row;
-                flex-wrap: wrap;       
-                justify-content: center; 
+                flex-wrap: wrap;      
+                justify-content: center;
                 gap: 20px 25px;      
             }
-            
+           
             .footer-logo {
-                width: 100%;           
+                width: 100%;          
                 height: 45px;
                 object-fit: contain;
                 margin-bottom: 5px;
@@ -323,34 +429,15 @@
             }
 
             .footer-item.schedule {
-                width: 100%;           
+                width: 100%;          
                 justify-content: center;
                 text-align: center;
                 margin-top: 5px;
             }
-            
+           
             .footer-item span {
                 line-height: 1.3;
             }
-        }
-        .link-admin{ 
-            margin-top: auto; 
-            margin-bottom: 35px; 
-            text-align: center; 
-            color: #666666; 
-            font-size: 0.85rem; 
-            text-decoration: none; 
-            letter-spacing: 1px; 
-            font-family: sans-serif; 
-            display: flex; 
-            align-items: center; 
-            justify-content:center; 
-            gap: 6px; 
-        } 
-        
-        .link-admin:hover{ 
-            color: var(--azul-header);
-            text-decoration: underline;
         }
     </style>
 </head>
@@ -363,7 +450,7 @@
             <span></span>
             <span></span>
         </div>
-        
+       
         <div class="menu-desplegable" id="menuMovil">
             <div class="menu-header">
                 <div class="close-menu" onclick="toggleMenu()">&times;</div>
@@ -372,7 +459,7 @@
                     <h1>Complejo Educativo<br>Juan Germán Roscio</h1>
                 </div>
             </div>
-            
+           
             <div class="menu-links">
                 <a href="index.html">INICIO</a>
                 <a href="Galería.html">GALERIA</a>
@@ -380,7 +467,6 @@
                 <a href="Información.html">INFORMACIÓN</a>
                 <a href="Biblioteca.html">BIBLIOTECA</a>
             </div>
-            <a href="Admin.html" class="link-admin"><i class="fas fa-user-lock"></i> Iniciar sesión</a>
         </div>
     </nav>
 
@@ -394,45 +480,25 @@
     <hr>
     <h2>Información Institucional</h2>
     <hr>
-    
+   
     <p class="intro">
         Bienvenido a la sección informativa de nuestra institución. Aquí encontrarás las pautas generales sobre el funcionamiento académico del plantel, la organización horaria y los recaudos necesarios para la tramitación de matrícula correspondiente al año escolar.
     </p>
 
-    <section class="seccion-info">
-        
-        <article class="bloque-info">
-            <h3><i class="fas fa-file-signature"></i> Requisitos de Inscripción</h3>
-            <ul>
-                <li>Original y copia de la Partida de Nacimiento del estudiante (legible).</li>
-                <li>Copia de la Cédula de Identidad del alumno y del representante legal.</li>
-                <li>Certificado de calificaciones original del año inmediato anterior.</li>
-                <li>Dos (2) fotos de frente tipo carnet del estudiante y una (1) del representante.</li>
-                <li>Ficha de registro de inscripción interna debidamente completada.</li>
-            </ul>
-        </article>
+    <!-- Panel opcional por si deseas agregar más bloques en el futuro -->
+    <div id="panelAdminInformacion" class="admin-controls">
+        <h3>Panel de Administración - Agregar Nuevo Bloque Informativo</h3>
+        <form id="formAgregarInformacion">
+            <input type="text" id="tituloBloqueNuevo" placeholder="Título del bloque (ej: Normas de Convivencia)" required>
+            <textarea id="itemsBloqueNuevo" rows="4" placeholder="Escribe cada punto separado por un salto de línea..." required></textarea>
+            <button type="submit">Agregar Bloque</button>
+        </form>
+    </div>
 
-        <article class="bloque-info">
-            <h3><i class="fas fa-clock"></i> Organización de Turnos</h3>
-            <ul>
-                <li><strong>Turno Mañana (Educación Media General):</strong> Horario de actividades desde las 7:00 am hasta las 12:00 pm.</li>
-                <li><strong>Turno Tarde (Actividades Complementarias / Menciones):</strong> Bloque académico comprendido entre las 12:30 pm y las 5:00 pm.</li>
-                <li>Las evaluaciones remediales o defensas institucionales programadas se rigen estrictamente según el calendario del departamento de evaluación.</li>
-            </ul>
-        </article>
-
-        <article class="bloque-info">
-            <h3><i class="fas fa-school"></i> Infraestructura y Espacios</h3>
-            <ul>
-                <li>Aulas equipadas para las secciones correspondientes de 1er a 5to año.</li>
-                <li>Laboratorio de ciencias básicas y salas de cómputo para informática.</li>
-                <li>Cancha de usos múltiples para el desarrollo de actividades físicas y culturales.</li>
-                <li>Área de biblioteca institucional para consultas y préstamo de textos de estudio.</li>
-            </ul>
-        </article>
-
+    <section class="seccion-info" id="contenedorSeccionesInfo">
+        <!-- Los bloques se cargarán automáticamente desde Firestore o se mostrarán los predeterminados -->
     </section>
-    
+   
     <div class="botones">
         <a href="index.html">Volver al Inicio</a>
     </div>
@@ -445,16 +511,218 @@
         <div class="footer-item"><i class="fas fa-map-marker-alt"></i> <span>Av. Principal</span></div>
         <div class="footer-item"><i class="fas fa-phone"></i> <span>+54 04243096172</span></div>
         <div class="footer-item schedule">
-            <i class="fas fa-clock"></i> 
+            <i class="fas fa-clock"></i>
             <span>Lunes a viernes: 7:00am/12:00pm - 12:30pm/5:00pm</span>
         </div>
     </div>
 </footer>
 
+<button id="btn-cerrar-sesion" class="btn-flotante-logout" onclick="cerrarSesionApp()">
+    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+</button>
+
 <script>
     function toggleMenu() {
         const menu = document.getElementById('menuMovil');
         menu.classList.toggle('active');
+    }
+</script>
+
+<!-- Firebase SDKs Modulares -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+    import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBCt3kJHxHP76a2HcvOqzjsS2nXZclpKv8",
+        authDomain: "liceo-jgr.firebaseapp.com",
+        projectId: "liceo-jgr",
+        storageBucket: "liceo-jgr.firebasestorage.app",
+        messagingSenderId: "266825809601",
+        appId: "1:266825809601:web:bd1da9e6ca229f12fd5e40"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Datos por defecto por si Firestore está vacío la primera vez
+    const bloquesPorDefecto = [
+        {
+            titulo: "Requisitos de Inscripción",
+            icono: "fas fa-file-signature",
+            items: [
+                "Original y copia de la Partida de Nacimiento del estudiante (legible).",
+                "Copia de la Cédula de Identidad del alumno y del representante legal.",
+                "Certificado de calificaciones original del año inmediato anterior.",
+                "Dos (2) fotos de frente tipo carnet del estudiante y una (1) del representante.",
+                "Ficha de registro de inscripción interna debidamente completada."
+            ]
+        },
+        {
+            titulo: "Organización de Turnos",
+            icono: "fas fa-clock",
+            items: [
+                "<strong>Turno Mañana (Educación Media General):</strong> Horario de actividades desde las 7:00 am hasta las 12:00 pm.",
+                "<strong>Turno Tarde (Actividades Complementarias / Menciones):</strong> Bloque académico comprendido entre las 12:30 pm y las 5:00 pm.",
+                "Las evaluaciones remediales o defensas institucionales programadas se rigen estrictamente según el calendario del departamento de evaluación."
+            ]
+        },
+        {
+            titulo: "Infraestructura y Espacios",
+            icono: "fas fa-school",
+            items: [
+                "Aulas equipadas para las secciones correspondientes de 1er a 5to año.",
+                "Laboratorio de ciencias básicas y salas de cómputo para informática.",
+                "Cancha de usos múltiples para el desarrollo de actividades físicas y culturales.",
+                "Área de biblioteca institucional para consultas y préstamo de textos de estudio."
+            ]
+        }
+    ];
+
+    // Monitorear sesión compartida
+    onAuthStateChanged(auth, async (user) => {
+        const panelAdmin = document.getElementById('panelAdminInformacion');
+        const btnCerrarSesion = document.getElementById('btn-cerrar-sesion');
+
+        if (user) {
+            if (panelAdmin) panelAdmin.style.display = 'block';
+            if (btnCerrarSesion) btnCerrarSesion.style.display = 'block';
+            await cargarInformacion(true);
+        } else {
+            if (panelAdmin) panelAdmin.style.display = 'none';
+            if (btnCerrarSesion) btnCerrarSesion.style.display = 'none';
+            await cargarInformacion(false);
+        }
+    });
+
+    window.cerrarSesionApp = function() {
+        signOut(auth).then(() => {
+            window.location.href = "index.html";
+        });
+    };
+
+    // Cargar bloques desde Firestore (si está vacío, inicializa los por defecto)
+    async function cargarInformacion(esAdmin) {
+        const contenedor = document.getElementById('contenedorSeccionesInfo');
+        contenedor.innerHTML = "";
+
+        try {
+            const querySnapshot = await getDocs(collection(db, "informacion"));
+            
+            if (querySnapshot.empty) {
+                // Si la base de datos está vacía, subimos los por defecto automáticamente
+                for (let bloque of bloquesPorDefecto) {
+                    await addDoc(collection(db, "informacion"), {
+                        titulo: bloque.titulo,
+                        icono: bloque.icono,
+                        items: bloque.items,
+                        timestamp: serverTimestamp()
+                    });
+                }
+                return cargarInformacion(esAdmin); // Recargar
+            }
+
+            querySnapshot.forEach((documento) => {
+                const data = documento.data();
+                const articulo = document.createElement('article');
+                articulo.className = 'bloque-info';
+                
+                let listaItemsHTML = "";
+                if (Array.isArray(data.items)) {
+                    data.items.forEach(itemText => {
+                        listaItemsHTML += `<li>${itemText}</li>`;
+                    });
+                }
+
+                let iconoClase = data.icono || "fas fa-info-circle";
+
+                let contenidoHTML = `
+                    <h3><i class="${iconoClase}"></i> <span>${data.titulo}</span></h3>
+                    <ul>
+                        ${listaItemsHTML}
+                    </ul>
+                `;
+
+                if (esAdmin) {
+                    contenidoHTML += `
+                        <div class="admin-block-controls" style="display: flex;">
+                            <button class="btn-admin-accion" onclick="editarBloque('${documento.id}', '${data.titulo.replace(/'/g, "\\'")}')"><i class="fas fa-edit"></i> Editar Bloque</button>
+                            <button class="btn-admin-accion eliminar" onclick="eliminarBloque('${documento.id}')"><i class="fas fa-trash-alt"></i> Eliminar</button>
+                        </div>
+                    `;
+                }
+
+                articulo.innerHTML = contenidoHTML;
+                contenedor.appendChild(articulo);
+            });
+
+        } catch (error) {
+            console.error("Error al cargar la información: ", error);
+        }
+    }
+
+    // Editar título y requisitos/puntos de un bloque en Firestore
+    window.editarBloque = async function(idDoc, tituloActual) {
+        const nuevoTitulo = prompt("Modificar el título del bloque:", tituloActual);
+        if (nuevoTitulo === null) return;
+
+        // Pedir los nuevos puntos separados por salto de línea
+        const nuevoTextoItems = prompt("Modifica los puntos o requisitos (separa cada elemento con un salto de línea):");
+        if (nuevoTextoItems === null) return;
+
+        const nuevosItemsArray = nuevoTextoItems.split('\n').map(item => item.trim()).filter(item => item.length > 0);
+
+        try {
+            const docRef = doc(db, "informacion", idDoc);
+            await updateDoc(docRef, {
+                titulo: nuevoTitulo,
+                items: nuevosItemsArray
+            });
+            alert("Bloque actualizado correctamente.");
+            cargarInformacion(true);
+        } catch (error) {
+            alert("Error al actualizar: " + error.message);
+        }
+    };
+
+    // Eliminar bloque completo de Firestore
+    window.eliminarBloque = async function(idDoc) {
+        if (confirm("¿Estás seguro de que deseas eliminar este bloque de información?")) {
+            try {
+                await deleteDoc(doc(db, "informacion", idDoc));
+                alert("Bloque eliminado correctamente.");
+                cargarInformacion(true);
+            } catch (error) {
+                alert("Error al eliminar: " + error.message);
+            }
+        }
+    };
+
+    // Agregar nuevo bloque opcional
+    const formAgregar = document.getElementById('formAgregarInformacion');
+    if (formAgregar) {
+        formAgregar.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const titulo = document.getElementById('tituloBloqueNuevo').value;
+            const itemsTexto = document.getElementById('itemsBloqueNuevo').value;
+            const itemsArray = itemsTexto.split('\n').map(item => item.trim()).filter(item => item.length > 0);
+
+            try {
+                await addDoc(collection(db, "informacion"), {
+                    titulo: titulo,
+                    icono: "fas fa-info-circle",
+                    items: itemsArray,
+                    timestamp: serverTimestamp()
+                });
+                alert("Nuevo bloque agregado exitosamente.");
+                document.getElementById('formAgregarInformacion').reset();
+                cargarInformacion(true);
+            } catch (error) {
+                alert("Error al agregar: " + error.message);
+            }
+        });
     }
 </script>
 
