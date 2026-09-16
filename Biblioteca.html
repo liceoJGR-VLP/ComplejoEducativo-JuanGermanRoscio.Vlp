@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca - Complejo Educativo Juan Germán Roscio</title>
-    
+   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
@@ -84,18 +84,18 @@
         .menu-desplegable {
             position: fixed;
             top: 0;
-            left: -100%;             
+            left: -100%;            
             width: 100%;
             height: 100vh;
-            background-color: var(--crema-fondo); 
-            z-index: 9999;           
-            transition: left 0.4s ease; 
+            background-color: var(--crema-fondo);
+            z-index: 9999;          
+            transition: left 0.4s ease;
             display: flex;
             flex-direction: column;
         }
 
         .menu-desplegable.active {
-            left: 0;                 
+            left: 0;                
         }
 
         .menu-header {
@@ -136,7 +136,7 @@
             width: auto;
             background-color: transparent;
         }
-    
+   
         .menu-links {
             display: flex;
             flex-direction: column;
@@ -160,7 +160,7 @@
         }
 
         .menu-links a:hover, .menu-links a:active {
-            background-color: #f1ede2; 
+            background-color: #f1ede2;
         }
 
         main#biblioteca {
@@ -242,6 +242,23 @@
             font-weight: 500;
         }
 
+        .btn-eliminar-doc {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transition: background 0.2s;
+            margin-left: 10px;
+        }
+
+        .btn-eliminar-doc:hover {
+            background-color: #c82333;
+        }
+
         @media (max-width: 600px) {
             .categoria-materia {
                 width: 100%;
@@ -253,6 +270,7 @@
         }
 
         .admin-upload {
+            display: none;
             margin-bottom: 25px;
         }
 
@@ -287,7 +305,8 @@
         }
 
         .cuadro-subir input[type="text"],
-        .cuadro-subir select {
+        .cuadro-subir select,
+        .cuadro-subir input[type="file"] {
             width: 100%;
             padding: 10px;
             border: 1px solid #cbd5e1;
@@ -298,21 +317,11 @@
             font-family: inherit;
         }
 
-        .btn-subir-label {
-            cursor: pointer;
-            background-color: #e2e8f0;
-            color: #333333;
-            padding: 8px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            border: 1px solid #cbd5e1;
-            display: inline-block;
-            transition: background 0.2s;
-        }
-
-        .btn-subir-label:hover {
-            background-color: #cbd5e1;
+        .aviso-limite {
+            font-size: 0.8rem;
+            color: #666;
+            text-align: left;
+            margin-top: -6px;
         }
 
         .btn-publicar {
@@ -330,6 +339,23 @@
 
         .btn-publicar:hover {
             background-color: #218838;
+        }
+
+        .btn-flotante-logout {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #b91c1c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            z-index: 9999;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            font-family: inherit;
+            font-weight: 600;
+            display: none;
         }
 
         .botones {
@@ -372,7 +398,7 @@
         }
 
         .footer-item i {
-            color: #133260; 
+            color: #133260;
             font-size: 1.1rem;
         }
 
@@ -390,13 +416,13 @@
         @media (max-width: 768px) {
             footer .contacto {
                 flex-direction: row;
-                flex-wrap: wrap;       
-                justify-content: center; 
+                flex-wrap: wrap;      
+                justify-content: center;
                 gap: 20px 25px;      
             }
-            
+           
             .footer-logo {
-                width: 100%;           
+                width: 100%;          
                 height: 45px;
                 object-fit: contain;
                 margin-bottom: 5px;
@@ -407,32 +433,32 @@
             }
 
             .footer-item.schedule {
-                width: 100%;           
+                width: 100%;          
                 justify-content: center;
                 text-align: center;
                 margin-top: 5px;
             }
-            
+           
             .footer-item span {
                 line-height: 1.3;
             }
         }
-        .link-admin{ 
-            margin-top: auto; 
-            margin-bottom: 35px; 
-            text-align: center; 
-            color: #666666; 
-            font-size: 0.85rem; 
-            text-decoration: none; 
-            letter-spacing: 1px; 
-            font-family: sans-serif; 
-            display: flex; 
-            align-items: center; 
-            justify-content:center; 
-            gap: 6px; 
-        } 
-        
-        .link-admin:hover{ 
+        .link-admin{
+            margin-top: auto;
+            margin-bottom: 35px;
+            text-align: center;
+            color: #666666;
+            font-size: 0.85rem;
+            text-decoration: none;
+            letter-spacing: 1px;
+            font-family: sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content:center;
+            gap: 6px;
+        }
+       
+        .link-admin:hover{
             color: var(--azul-header);
             text-decoration: underline;
         }
@@ -447,7 +473,7 @@
             <span></span>
             <span></span>
         </div>
-        
+       
         <div class="menu-desplegable" id="menuMovil">
             <div class="menu-header">
                 <div class="close-menu" onclick="toggleMenu()">&times;</div>
@@ -456,7 +482,7 @@
                     <h1>Complejo Educativo<br>Juan Germán Roscio</h1>
                 </div>
             </div>
-            
+           
             <div class="menu-links">
                 <a href="index.html">INICIO</a>
                 <a href="Galería.html">GALERIA</a>
@@ -478,9 +504,30 @@
     <hr>
     <h2>Biblioteca Digital</h2>
     <hr>
-    <section class="biblioteca-materias">
 
-        <div class="categoria-materia">
+    <!-- Panel de Administración para subir archivos a la Biblioteca -->
+    <section class="admin-upload" id="panelAdminBiblioteca">
+        <div class="cuadro-subir">
+            <i class="fas fa-cloud-upload-alt icono-subir"></i>
+            <p>Subir Nuevo Documento a la Biblioteca</p>
+            <form id="formSubirBiblioteca">
+                <select id="materiaLibro" required>
+                    <option value="" disabled selected>Seleccione la Materia</option>
+                    <option value="Matemáticas">Matemáticas</option>
+                    <option value="Castellano">Castellano</option>
+                    <option value="GHC">GHC</option>
+                </select>
+                <input type="text" id="nombreArchivo" placeholder="Nombre del archivo (ej: Guía de Ejercicios.pdf)" required>
+                <input type="file" id="archivoDoc" accept=".pdf" required>
+                <span class="aviso-limite">Requisito: Formato PDF (Máximo 5 MB)</span>
+                <button type="submit" class="btn-publicar">Publicar Documento</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="biblioteca-materias" id="contenedorMateriasBiblioteca">
+
+        <div class="categoria-materia" data-materia="Matemáticas">
             <h3><i class="fas fa-calculator"></i> Matemáticas</h3>
             <table class="tabla-biblioteca">
                 <thead>
@@ -490,9 +537,9 @@
                         <th>Acción</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="cuerpo-tabla">
                     <tr>
-                        <td>Ecuaciones de Segundo Grado.docx</td>
+                        <td>Ecuaciones de Segundo Grado.pdf</td>
                         <td>03/05/2026</td>
                         <td><a href="#" class="btn-descargar">Descargar</a></td>
                     </tr>
@@ -500,7 +547,7 @@
             </table>
         </div>
 
-        <div class="categoria-materia">
+        <div class="categoria-materia" data-materia="Castellano">
             <h3><i class="fas fa-book"></i> Castellano</h3>
             <table class="tabla-biblioteca">
                 <thead>
@@ -510,9 +557,9 @@
                         <th>Acción</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="cuerpo-tabla">
                     <tr>
-                        <td>Guía de Análisis Literario.doc</td>
+                        <td>Guía de Análisis Literario.pdf</td>
                         <td>01/05/2026</td>
                         <td><a href="#" class="btn-descargar">Descargar</a></td>
                     </tr>
@@ -520,7 +567,7 @@
             </table>
         </div>
 
-        <div class="categoria-materia">
+        <div class="categoria-materia" data-materia="GHC">
             <h3><i class="fas fa-globe-americas"></i> GHC</h3>
             <table class="tabla-biblioteca">
                 <thead>
@@ -530,9 +577,9 @@
                         <th>Acción</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="cuerpo-tabla">
                     <tr>
-                        <td>Patrimonio Histórico de Venezuela.docx</td>
+                        <td>Patrimonio Histórico de Venezuela.pdf</td>
                         <td>25/04/2026</td>
                         <td><a href="#" class="btn-descargar">Descargar</a></td>
                     </tr>
@@ -554,17 +601,203 @@
         <div class="footer-item"><i class="fas fa-map-marker-alt"></i> <span>Calle Retumbo</span></div>
         <div class="footer-item"><i class="fas fa-phone"></i> <span>+54 04243096172</span></div>
         <div class="footer-item schedule">
-            <i class="fas fa-clock"></i> 
+            <i class="fas fa-clock"></i>
             <span>Lunes a viernes: 7:00am/12:00pm - 12:30pm/5:00pm</span>
         </div>
     </div>
 </footer>
+
+<button id="btn-cerrar-sesion" class="btn-flotante-logout" onclick="cerrarSesionApp()">
+    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+</button>
 
 <script>
     function toggleMenu() {
         const menu = document.getElementById('menuMovil');
         menu.classList.toggle('active');
     }
+</script>
+
+<!-- Firebase SDKs Modulares -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+    import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-storage.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBCt3kJHxHP76a2HcvOqzjsS2nXZclpKv8",
+        authDomain: "liceo-jgr.firebaseapp.com",
+        projectId: "liceo-jgr",
+        storageBucket: "liceo-jgr.firebasestorage.app",
+        messagingSenderId: "266825809601",
+        appId: "1:266825809601:web:bd1da9e6ca229f12fd5e40"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    // Monitorear estado de sesión del Administrador
+    onAuthStateChanged(auth, (user) => {
+        const panelAdmin = document.getElementById('panelAdminBiblioteca');
+        const btnCerrarSesion = document.getElementById('btn-cerrar-sesion');
+
+        if (user) {
+            if (panelAdmin) panelAdmin.style.display = 'block';
+            if (btnCerrarSesion) btnCerrarSesion.style.display = 'block';
+            cargarDocumentosBiblioteca(true);
+        } else {
+            if (panelAdmin) panelAdmin.style.display = 'none';
+            if (btnCerrarSesion) btnCerrarSesion.style.display = 'none';
+            cargarDocumentosBiblioteca(false);
+        }
+    });
+
+    window.cerrarSesionApp = function() {
+        signOut(auth).then(() => {
+            window.location.href = "index.html";
+        });
+    };
+
+    // Cargar documentos de Firestore organizados por materia
+    async function cargarDocumentosBiblioteca(esAdmin) {
+        try {
+            const querySnapshot = await getDocs(collection(db, "biblioteca"));
+            
+            // Agrupar documentos por materia
+            const documentosPorMateria = {
+                "Matemáticas": [],
+                "Castellano": [],
+                "GHC": []
+            };
+
+            querySnapshot.forEach((documento) => {
+                const data = documento.data();
+                if (documentosPorMateria[data.materia]) {
+                    documentosPorMateria[data.materia].push({
+                        id: documento.id,
+                        ...data
+                    });
+                }
+            });
+
+            // Actualizar cada tabla según la materia
+            Object.keys(documentosPorMateria).forEach(materia => {
+                const contenedorMateria = document.querySelector(`.categoria-materia[data-materia="${materia}"] .cuerpo-tabla`);
+                if (contenedorMateria) {
+                    contenedorMateria.innerHTML = "";
+                    
+                    if (documentosPorMateria[materia].length === 0) {
+                        contenedorMateria.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#666;">No hay documentos disponibles.</td></tr>`;
+                    } else {
+                        documentosPorMateria[materia].forEach(docItem => {
+                            let fechaFormateada = "Fecha reciente";
+                            if (docItem.timestamp && docItem.timestamp.toDate) {
+                                fechaFormateada = docItem.timestamp.toDate().toLocaleDateString();
+                            }
+
+                            let filaHTML = `
+                                <tr>
+                                    <td>${docItem.nombreArchivo}</td>
+                                    <td>${fechaFormateada}</td>
+                                    <td>
+                                        <a href="${docItem.urlArchivo}" target="_blank" class="btn-descargar">Descargar</a>
+                            `;
+
+                            if (esAdmin) {
+                                filaHTML += `<button class="btn-eliminar-doc" onclick="eliminarDocumento('${docItem.id}', '${docItem.rutaStorage}')">Eliminar</button>`;
+                            }
+
+                            filaHTML += `</td></tr>`;
+                            contenedorMateria.innerHTML += filaHTML;
+                        });
+                    }
+                }
+            });
+
+        } catch (error) {
+            console.error("Error al cargar la biblioteca: ", error);
+        }
+    }
+
+    // Subir documento desde el panel admin con validación de tipo y peso
+    const formSubir = document.getElementById('formSubirBiblioteca');
+    if (formSubir) {
+        formSubir.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const materia = document.getElementById('materiaLibro').value;
+            const nombreArchivo = document.getElementById('nombreArchivo').value;
+            const archivoInput = document.getElementById('archivoDoc');
+            const archivo = archivoInput.files[0];
+
+            if (!archivo) {
+                alert("Por favor seleccione un archivo.");
+                return;
+            }
+
+            // Validación estricta de formato PDF
+            if (archivo.type !== "application/pdf" && !archivo.name.toLowerCase().endsWith('.pdf')) {
+                alert("⚠️ Error: Solo se permite subir documentos con formato PDF.");
+                return;
+            }
+
+            // Límite de peso establecido en 5 MB (5 * 1024 * 1024 bytes)
+            const tamanoMaximoMB = 5;
+            const tamanoMaximoBytes = tamanoMaximoMB * 1024 * 1024;
+            if (archivo.size > tamanoMaximoBytes) {
+                alert(`⚠️ Error: El archivo supera el límite de peso permitido (${tamanoMaximoMB} MB). Por favor, comprima el PDF o elija uno más liviano.`);
+                return;
+            }
+
+            try {
+                // Ruta única en Storage
+                const rutaStorage = `biblioteca/${Date.now()}_${archivo.name}`;
+                const storageRef = ref(storage, rutaStorage);
+
+                alert("Subiendo archivo, por favor espere...");
+                const snapshot = await uploadBytes(storageRef, archivo);
+                const urlArchivo = await getDownloadURL(snapshot.ref);
+
+                // Guardar metadatos en Firestore
+                await addDoc(collection(db, "biblioteca"), {
+                    materia: materia,
+                    nombreArchivo: nombreArchivo,
+                    urlArchivo: urlArchivo,
+                    rutaStorage: rutaStorage,
+                    timestamp: serverTimestamp()
+                });
+
+                alert("¡Documento publicado con éxito!");
+                formSubir.reset();
+                cargarDocumentosBiblioteca(true);
+
+            } catch (error) {
+                alert("Error al subir el archivo: " + error.message);
+            }
+        });
+    }
+
+    // Eliminar documento de Firestore y Storage
+    window.eliminarDocumento = async function(idDoc, rutaStorage) {
+        if (confirm("¿Estás seguro de que deseas eliminar este documento?")) {
+            try {
+                // Eliminar archivo de Storage si existe ruta
+                if (rutaStorage) {
+                    const archivoRef = ref(storage, rutaStorage);
+                    await deleteObject(archivoRef).catch(err => console.log("Archivo no encontrado en storage, continuando..."));
+                }
+
+                // Eliminar registro de Firestore
+                await deleteDoc(doc(db, "biblioteca", idDoc));
+                alert("Documento eliminado correctamente.");
+                cargarDocumentosBiblioteca(true);
+            } catch (error) {
+                alert("Error al eliminar el documento: " + error.message);
+            }
+        }
+    };
 </script>
 
 </body>
