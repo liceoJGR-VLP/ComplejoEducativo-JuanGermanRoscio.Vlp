@@ -423,7 +423,7 @@
                 <a href="Información.html">INFORMACIÓN</a>
                 <a href="Biblioteca.html">BIBLIOTECA</a>
             </div>
-            <a href="#" class="link-admin" onclick="abrirLogin(); return false;"><i class="fas fa-user-lock"></i> Acceso Administrativo</a>
+            <a href="#" class="link-admin" onclick="abrirLogin(); return false;"><i class="fas fa-user-lock"></i> Inicio de Sesión </a>
         </div>
     </nav>
 
@@ -435,8 +435,9 @@
 
 <div class="banner-liceo">
     <div class="admin-only" style="position: absolute; top: 15px; right: 15px; z-index: 10;">
-        <button class="btn-editar-contexto" onclick="document.getElementById('input-banner-file').click()"><i class="fas fa-camera"></i> Cambiar Foto</button>
-        <input type="file" id="input-banner-file" accept="image/*" style="display: none;" onchange="actualizarBanner(event)">
+        <!-- Input oculto para seleccionar la foto del dispositivo -->
+        <input type="file" id="input-file-drive" style="display: none;" accept="image/*" onchange="subirFotoADrive(event)">
+        <button class="btn-editar-contexto" onclick="document.getElementById('input-file-drive').click()"><i class="fab fa-google-drive"></i> Cambiar Foto</button>
     </div>
     <img id="img-banner-principal" src="liceo.png" alt="Misión Sucre Aldea Juan Germán Roscio">
 </div>
@@ -514,6 +515,8 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwtZLzaqrbFb6FL7WzDvR4tTkN3ubfT_oiBwOjsXpfErhT_wvC6QsYraX36bhJqACiW/exec";
+
     async function cargarContenidoPagina() {
         try {
             const docRef = doc(db, "textos_generales", "inicio-home");
@@ -524,7 +527,7 @@
                 if (data.bannerUrl) document.getElementById("img-banner-principal").src = data.bannerUrl;
             }
         } catch (error) {
-            console.error("Error al cargar contenido de Firebase:", error);
+            console.error("Error al cargar contenido:", error);
         }
     }
     window.addEventListener("DOMContentLoaded", cargarContenidoPagina);
@@ -572,28 +575,41 @@
         }
     });
 
-    window.actualizarBanner = function(event) {
-        const archivo = event.target.files[0];
-        if (!archivo) return;
+    window.subirFotoADrive = async function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
 
-        const lector = new FileReader();
-        lector.onload = async function(e) {
-            const base64Image = e.target.result;
-            document.getElementById("img-banner-principal").src = base64Image;
+        alert("Subiendo imagen a tu Google Drive... Por favor espera un momento.");
 
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+            const base64Data = e.target.result;
+            
             try {
-                const contenidoActual = document.getElementById("texto-resena").innerHTML;
-                await setDoc(doc(db, "textos_generales", "inicio-home"), {
-                    contenido: contenidoActual,
-                    bannerUrl: base64Image
-                }, { merge: true });
-                alert("¡Imagen del banner actualizada y guardada en Firebase con éxito!");
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: {
+                        "Content-Type": "text/plain;charset=utf-8"
+                    },
+                    body: JSON.stringify({
+                        nombre: file.name,
+                        tipo: "foto",
+                        base64: base64Data
+                    })
+                });
+
+                setTimeout(async () => {
+                    alert("Actualizando la página...");
+                    window.location.reload();
+                }, 3000);
+
             } catch (error) {
-                console.error("Error al guardar la imagen en Firebase:", error);
-                alert("No se pudo guardar la imagen en la base de datos.");
+                console.error("Error al subir a Drive:", error);
+                alert("Hubo un error al conectar con Google Drive.");
             }
         };
-        lector.readAsDataURL(archivo);
+        reader.readAsDataURL(file);
     };
 
     let editando = false;
@@ -618,9 +634,9 @@
                     contenido: contenedor.innerHTML,
                     bannerUrl: bannerActual
                 }, { merge: true });
-                alert("¡Texto actualizado y guardado en Firebase con éxito!");
+                alert("¡Texto actualizado con éxito!");
             } catch (error) {
-                console.error("Error al guardar en Firebase:", error);
+                console.error("Error al guardar:", error);
                 alert("Hubo un error al guardar los cambios.");
             }
 
