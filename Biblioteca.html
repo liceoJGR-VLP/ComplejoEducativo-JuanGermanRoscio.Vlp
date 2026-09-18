@@ -304,7 +304,6 @@
             width: 100%;
         }
 
-        .cuadro-subir input[type="text"],
         .cuadro-subir select,
         .cuadro-subir input[type="file"] {
             width: 100%;
@@ -504,11 +503,10 @@
     <h2>Biblioteca Digital</h2>
     <hr>
 
-    <!-- Panel de Administración para subir archivos a la Biblioteca -->
     <section class="admin-upload" id="panelAdminBiblioteca">
         <div class="cuadro-subir">
-            <i class="fas fa-cloud-upload-alt icono-subir"></i>
-            <p>Subir Nuevo Documento a la Biblioteca</p>
+            <i class="fas fa-cloud-upload-alt icono-subir" style="color: #133260;"></i>
+            <p>Subir Documento PDF</p>
             <form id="formSubirBiblioteca">
                 <select id="materiaLibro" required>
                     <option value="" disabled selected>Seleccione la Materia</option>
@@ -516,10 +514,11 @@
                     <option value="Castellano">Castellano</option>
                     <option value="GHC">GHC</option>
                 </select>
-                <input type="text" id="nombreArchivo" placeholder="Nombre del archivo (ej: Guía de Ejercicios.pdf)" required>
-                <input type="file" id="archivoDoc" accept=".pdf" required>
-                <span class="aviso-limite">Requisito: Formato PDF (Máximo 5 MB)</span>
-                <button type="submit" class="btn-publicar">Publicar Documento</button>
+                
+                <input type="file" id="archivoPDF" accept="application/pdf" required>
+                <span class="aviso-limite">Requisito: Formato PDF (Máximo 10 MB)</span>
+                
+                <button type="submit" id="btnSubir" class="btn-publicar">Subir Documento</button>
             </form>
         </div>
     </section>
@@ -537,11 +536,6 @@
                     </tr>
                 </thead>
                 <tbody class="cuerpo-tabla">
-                    <tr>
-                        <td>Ecuaciones de Segundo Grado.pdf</td>
-                        <td>03/05/2026</td>
-                        <td><a href="#" class="btn-descargar">Descargar</a></td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -557,11 +551,6 @@
                     </tr>
                 </thead>
                 <tbody class="cuerpo-tabla">
-                    <tr>
-                        <td>Guía de Análisis Literario.pdf</td>
-                        <td>01/05/2026</td>
-                        <td><a href="#" class="btn-descargar">Descargar</a></td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -577,11 +566,6 @@
                     </tr>
                 </thead>
                 <tbody class="cuerpo-tabla">
-                    <tr>
-                        <td>Patrimonio Histórico de Venezuela.pdf</td>
-                        <td>25/04/2026</td>
-                        <td><a href="#" class="btn-descargar">Descargar</a></td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -589,7 +573,7 @@
     </section>
 
     <div class="botones">
-        <a href="index.html">Volver al Inicio</a>
+        <a href="Información.html">Volver a Información</a>
     </div>
 </main>
 
@@ -617,12 +601,10 @@
     }
 </script>
 
-<!-- Firebase SDKs Modulares -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
     import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
-    import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-storage.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyBCt3kJHxHP76a2HcvOqzjsS2nXZclpKv8",
@@ -636,7 +618,6 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const storage = getStorage(app);
 
     // Monitorear estado de sesión del Administrador
     onAuthStateChanged(auth, (user) => {
@@ -660,12 +641,11 @@
         });
     };
 
-    // Cargar documentos de Firestore organizados por materia
+    // Cargar documentos desde Firestore organizados por materia
     async function cargarDocumentosBiblioteca(esAdmin) {
         try {
             const querySnapshot = await getDocs(collection(db, "biblioteca"));
             
-            // Agrupar documentos por materia
             const documentosPorMateria = {
                 "Matemáticas": [],
                 "Castellano": [],
@@ -682,7 +662,6 @@
                 }
             });
 
-            // Actualizar cada tabla según la materia
             Object.keys(documentosPorMateria).forEach(materia => {
                 const contenedorMateria = document.querySelector(`.categoria-materia[data-materia="${materia}"] .cuerpo-tabla`);
                 if (contenedorMateria) {
@@ -702,11 +681,11 @@
                                     <td>${docItem.nombreArchivo}</td>
                                     <td>${fechaFormateada}</td>
                                     <td>
-                                        <a href="${docItem.urlArchivo}" target="_blank" class="btn-descargar">Descargar</a>
+                                        <a href="${docItem.urlArchivo}" target="_blank" class="btn-descargar">Ver / Descargar</a>
                             `;
 
                             if (esAdmin) {
-                                filaHTML += `<button class="btn-eliminar-doc" onclick="eliminarDocumento('${docItem.id}', '${docItem.rutaStorage}')">Eliminar</button>`;
+                                filaHTML += `<button class="btn-eliminar-doc" onclick="eliminarDocumento('${docItem.id}')">Eliminar</button>`;
                             }
 
                             filaHTML += `</td></tr>`;
@@ -721,74 +700,73 @@
         }
     }
 
-    // Subir documento desde el panel admin con validación de tipo y peso
     const formSubir = document.getElementById('formSubirBiblioteca');
     if (formSubir) {
         formSubir.addEventListener('submit', async (e) => {
             e.preventDefault();
             const materia = document.getElementById('materiaLibro').value;
-            const nombreArchivo = document.getElementById('nombreArchivo').value;
-            const archivoInput = document.getElementById('archivoDoc');
-            const archivo = archivoInput.files[0];
+            const inputArchivo = document.getElementById('archivoPDF');
+            const archivo = inputArchivo.files[0];
 
             if (!archivo) {
-                alert("Por favor seleccione un archivo.");
+                alert("Por favor seleccione un archivo PDF.");
                 return;
             }
 
-            // Validación estricta de formato PDF
-            if (archivo.type !== "application/pdf" && !archivo.name.toLowerCase().endsWith('.pdf')) {
-                alert("⚠️ Error: Solo se permite subir documentos con formato PDF.");
+            if (archivo.type !== "application/pdf") {
+                alert("Error: Solo se permiten archivos en formato PDF.");
                 return;
             }
 
-            // Límite de peso establecido en 5 MB (5 * 1024 * 1024 bytes)
-            const tamanoMaximoMB = 5;
-            const tamanoMaximoBytes = tamanoMaximoMB * 1024 * 1024;
-            if (archivo.size > tamanoMaximoBytes) {
-                alert(`⚠️ Error: El archivo supera el límite de peso permitido (${tamanoMaximoMB} MB). Por favor, comprima el PDF o elija uno más liviano.`);
+            const limiteBytes = 10 * 1024 * 1024;
+            if (archivo.size > limiteBytes) {
+                alert("Error: El archivo excede el límite máximo permitido de 10 MB.");
                 return;
             }
+
+            const btnSubir = document.getElementById('btnSubir');
+            btnSubir.disabled = true;
+            btnSubir.textContent = "Subiendo a Google Drive...";
 
             try {
-                // Ruta única en Storage
-                const rutaStorage = `biblioteca/${Date.now()}_${archivo.name}`;
-                const storageRef = ref(storage, rutaStorage);
+                const formData = new FormData();
+                formData.append("file", archivo);
+                formData.append("materia", materia);
+                
+                const respuestaDrive = await fetch("URL_DE_TU_CLOUD_FUNCTION_O_APPS_SCRIPT", {
+                    method: "POST",
+                    body: formData
+                });
+                const resultado = await respuestaDrive.json();
+                const urlGoogleDrive = resultado.fileUrl;
+                */
 
-                alert("Subiendo archivo, por favor espere...");
-                const snapshot = await uploadBytes(storageRef, archivo);
-                const urlArchivo = await getDownloadURL(snapshot.ref);
+                const urlGoogleDriveSimulada = "https://drive.google.com/file/d/ejemplo-enlace-drive/view";
 
-                // Guardar metadatos en Firestore
                 await addDoc(collection(db, "biblioteca"), {
                     materia: materia,
-                    nombreArchivo: nombreArchivo,
-                    urlArchivo: urlArchivo,
-                    rutaStorage: rutaStorage,
+                    nombreArchivo: archivo.name,
+                    urlArchivo: urlGoogleDriveSimulada,
                     timestamp: serverTimestamp()
                 });
 
-                alert("¡Documento publicado con éxito!");
+                alert("¡Documento subido con éxito!");
                 formSubir.reset();
                 cargarDocumentosBiblioteca(true);
 
             } catch (error) {
                 alert("Error al subir el archivo: " + error.message);
+            } finally {
+                btnSubir.disabled = false;
+                btnSubir.textContent = "Subir y Guardar Documento";
             }
         });
     }
 
-    // Eliminar documento de Firestore y Storage
-    window.eliminarDocumento = async function(idDoc, rutaStorage) {
+    // Eliminar el registro del documento de Firestore
+    window.eliminarDocumento = async function(idDoc) {
         if (confirm("¿Estás seguro de que deseas eliminar este documento?")) {
             try {
-                // Eliminar archivo de Storage si existe ruta
-                if (rutaStorage) {
-                    const archivoRef = ref(storage, rutaStorage);
-                    await deleteObject(archivoRef).catch(err => console.log("Archivo no encontrado en storage, continuando..."));
-                }
-
-                // Eliminar registro de Firestore
                 await deleteDoc(doc(db, "biblioteca", idDoc));
                 alert("Documento eliminado correctamente.");
                 cargarDocumentosBiblioteca(true);
