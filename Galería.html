@@ -225,15 +225,23 @@
             cursor: pointer;
         }
 
-        .foto p {
+        .foto .info-foto {
             padding: 14px;
-            margin: 0;
-            font-size: 1rem;
-            color: var(--texto-principal);
-            text-align: center;
-            font-weight: 500;
             background: #ffffff;
             border-top: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .foto p {
+            margin: 0 0 5px 0;
+            font-size: 1rem;
+            color: var(--texto-principal);
+            font-weight: 500;
+        }
+
+        .foto .fecha-foto {
+            font-size: 0.82rem;
+            color: #777777;
         }
 
         /* Panel de administración */
@@ -258,14 +266,27 @@
             gap: 12px;
         }
 
-        .admin-controls input[type="url"],
-        .admin-controls input[type="text"] {
+        .admin-controls input[type="text"],
+        .admin-controls input[type="date"] {
             width: 100%;
             padding: 10px;
             border: 1px solid #cbd5e1;
             border-radius: 4px;
             font-size: 0.9rem;
             background-color: #fafafa;
+        }
+
+        .btn-seleccionar-archivo {
+            background-color: var(--azul-header);
+            color: white;
+            border: none;
+            padding: 11px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.95rem;
+            text-align: center;
+            display: inline-block;
         }
 
         .admin-controls button[type="submit"] {
@@ -338,6 +359,12 @@
             color: var(--texto-principal);
             text-align: center;
             font-weight: 500;
+        }
+
+        .lightbox-content .lightbox-fecha {
+            margin-top: 5px;
+            font-size: 0.9rem;
+            color: #666;
         }
 
         .close-lightbox {
@@ -494,31 +521,43 @@
     <hr>
     <p class="subtitulo-galeria">Explora las instalaciones</p>
 
-    <!-- Panel de administración -->
     <div id="panelAdminGaleria" class="admin-controls">
-        <h3>Panel de Administración - Agregar Nueva Foto</h3>
+        <h3>Subir Nueva Foto</h3>
         <form id="formAgregarFoto">
-            <input type="url" id="urlFoto" placeholder="URL de la imagen (ej: https://...)" required>
+            <input type="file" id="archivoFoto" accept="image/*" style="display: none;" required onchange="actualizarNombreArchivo(this)">
+            <button type="button" class="btn-seleccionar-archivo" onclick="document.getElementById('archivoFoto').click()">
+                <i class="fab fa-google-drive"></i> <span id="textoSeleccion">Seleccionar foto</span>
+            </button>
             <input type="text" id="tituloFoto" placeholder="Descripción de la foto" required>
-            <button type="submit">Subir e incluir en la galería</button>
+            <input type="date" id="fechaFoto" required>
+            <button type="submit">Subir</button>
         </form>
     </div>
 
     <section class="grid-galeria" id="gridGaleria">
         <!-- Contenido predeterminado si Firestore está vacío -->
         <div class="foto">
-            <img src="img/fachada.jpg" alt="Fachada del Liceo" onclick="ampliarFoto('img/fachada.jpg', 'Nuestra Sede Principal')">
-            <p>Nuestra Sede Principal</p>
+            <img src="img/fachada.jpg" alt="Fachada del Liceo" onclick="ampliarFoto('img/fachada.jpg', 'Nuestra Sede Principal', 'Predeterminado')">
+            <div class="info-foto">
+                <p>Nuestra Sede Principal</p>
+                <span class="fecha-foto">Fecha:</span>
+            </div>
         </div>
         
         <div class="foto">
-            <img src="img/evento1.jpg" alt="Evento escolar" onclick="ampliarFoto('img/evento1.jpg', 'Actividades Culturales')">
-            <p>Actividades Culturales</p>
+            <img src="img/evento1.jpg" alt="Evento escolar" onclick="ampliarFoto('img/evento1.jpg', 'Actividades Culturales', 'Predeterminado')">
+            <div class="info-foto">
+                <p>Actividades Culturales</p>
+                <span class="fecha-foto">Fecha:</span>
+            </div>
         </div>
 
         <div class="foto">
-            <img src="img/estudiantes.jpg" alt="Grupo de estudiantes" onclick="ampliarFoto('img/estudiantes.jpg', 'Comunidad Estudiantil')">
-            <p>Comunidad Estudiantil</p>
+            <img src="img/estudiantes.jpg" alt="Grupo de estudiantes" onclick="ampliarFoto('img/estudiantes.jpg', 'Comunidad Estudiantil', 'Predeterminado')">
+            <div class="info-foto">
+                <p>Comunidad Estudiantil</p>
+                <span class="fecha-foto">Fecha:</span>
+            </div>
         </div>
     </section>
 
@@ -534,6 +573,7 @@
         <span class="close-lightbox" onclick="cerrarLightbox()">&times;</span>
         <img id="imgLightbox" src="" alt="Imagen ampliada">
         <p id="textoLightbox"></p>
+        <span id="fechaLightbox" class="lightbox-fecha"></span>
     </div>
 </div>
 
@@ -557,7 +597,7 @@
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-    import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyBCt3kJHxHP76a2HcvOqzjsS2nXZclpKv8",
@@ -572,14 +612,25 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwtZLzaqrbFb6FL7WzDvR4tTkN3ubfT_oiBwOjsXpfErhT_wvC6QsYraX36bhJqACiW/exec";
+
     window.toggleMenu = function() {
         document.getElementById('menuMovil').classList.toggle('active');
     };
 
-    // Funciones del Lightbox (Ampliar imagen)
-    window.ampliarFoto = function(url, titulo) {
+    window.actualizarNombreArchivo = function(input) {
+        const span = document.getElementById('textoSeleccion');
+        if (input.files && input.files[0]) {
+            span.textContent = "Archivo: " + input.files[0].name;
+        } else {
+            span.textContent = "Seleccionar foto de la galería";
+        }
+    };
+
+    window.ampliarFoto = function(url, titulo, fecha) {
         document.getElementById('imgLightbox').src = url;
         document.getElementById('textoLightbox').textContent = titulo;
+        document.getElementById('fechaLightbox').textContent = "Fecha: " + fecha;
         document.getElementById('lightboxModal').style.display = 'flex';
     };
 
@@ -587,14 +638,12 @@
         document.getElementById('lightboxModal').style.display = 'none';
     };
 
-    // Cerrar lightbox haciendo clic fuera del contenido
     document.getElementById('lightboxModal').addEventListener('click', (e) => {
         if (e.target.id === 'lightboxModal') {
             cerrarLightbox();
         }
     });
 
-    // Sincronizar estado de sesión
     onAuthStateChanged(auth, (user) => {
         const panelAdmin = document.getElementById('panelAdminGaleria');
         const btnCerrarSesion = document.getElementById('btn-cerrar-sesion');
@@ -616,7 +665,6 @@
         });
     };
 
-    // Cargar fotos desde Firestore
     async function cargarFotosDesdeFirestore(esAdmin) {
         const grid = document.getElementById('gridGaleria');
         try {
@@ -628,14 +676,18 @@
                     const fotoDiv = document.createElement('div');
                     fotoDiv.className = 'foto';
                     
-                    // Aseguramos que la imagen tenga el evento onclick para ampliar con su respectivo texto
+                    const fechaFormateada = data.fechaFoto || "No especificada";
+
                     let contenidoHTML = `
-                        <img src="${data.url}" alt="${data.titulo}" onclick="ampliarFoto('${data.url}', '${data.titulo.replace(/'/g, "\\'")}')">
-                        <p>${data.titulo}</p>
+                        <img src="${data.url}" alt="${data.titulo}" onclick="ampliarFoto('${data.url}', '${data.titulo.replace(/'/g, "\\'")}', '${fechaFormateada}')">
+                        <div class="info-foto">
+                            <p>${data.titulo}</p>
+                            <span class="fecha-foto">Fecha: ${fechaFormateada}</span>
+                        </div>
                     `;
 
                     if (esAdmin) {
-                        contenidoHTML += `<button class="btn-eliminar" onclick="eliminarFoto('${documento.id}')">Eliminar foto</button>`;
+                        contenidoHTML += `<button class="btn-eliminar" onclick="eliminarFoto('${documento.id}')">Eliminar</button>`;
                     }
 
                     fotoDiv.innerHTML = contenidoHTML;
@@ -647,37 +699,71 @@
         }
     }
 
-    // Registrar nueva foto en Firestore
     const formAgregar = document.getElementById('formAgregarFoto');
     if (formAgregar) {
         formAgregar.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const url = document.getElementById('urlFoto').value;
+            const inputArchivo = document.getElementById('archivoFoto');
             const titulo = document.getElementById('tituloFoto').value;
+            const fechaFoto = document.getElementById('fechaFoto').value;
+            const file = inputArchivo.files[0];
 
-            try {
-                await addDoc(collection(db, "galeria"), {
-                    url: url,
-                    titulo: titulo,
-                    fecha: serverTimestamp()
-                });
-                alert("Foto agregada exitosamente a la galería.");
-                document.getElementById('urlFoto').value = '';
-                document.getElementById('tituloFoto').value = '';
-                cargarFotosDesdeFirestore(true);
-            } catch (error) {
-                alert("Error al agregar la foto: " + error.message);
+            if (!file) {
+                alert("Selecciona una imagen.");
+                return;
             }
+
+            alert("Subiendo foto... Por favor espera.");
+
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const base64Data = e.target.result;
+
+                try {
+                    const response = await fetch(APPS_SCRIPT_URL, {
+                        method: "POST",
+                        body: JSON.stringify({
+                            nombre: file.name,
+                            tipo: "foto",
+                            base64: base64Data
+                        })
+                    });
+
+                    const resultadoJson = await response.json();
+
+                    if (resultadoJson.resultado === "success") {
+                        const urlDrive = resultadoJson.url;
+
+                        await addDoc(collection(db, "galeria"), {
+                            url: urlDrive,
+                            titulo: titulo,
+                            fechaFoto: fechaFoto
+                        });
+
+                        alert("¡Foto subida y agregada con su fecha a la galería!");
+                        inputArchivo.value = '';
+                        document.getElementById('tituloFoto').value = '';
+                        document.getElementById('fechaFoto').value = '';
+                        document.getElementById('textoSeleccion').textContent = "Seleccionar foto de la galería";
+                        cargarFotosDesdeFirestore(true);
+                    } else {
+                        alert("Error al subir a Drive: " + resultadoJson.mensaje);
+                    }
+
+                } catch (error) {
+                    console.error("Error:", error);
+                    alert("Hubo un error de conexión");
+                }
+            };
+            reader.readAsDataURL(file);
         });
     }
 
-    // Eliminar foto de Firestore
     window.eliminarFoto = async function(idDoc) {
         if (confirm("¿Estás seguro de que deseas eliminar esta foto de la galería?")) {
             try {
                 await deleteDoc(doc(db, "galeria", idDoc));
                 alert("Foto eliminada correctamente.");
-                // Verificamos si hay sesión activa para mantener los privilegios de admin al recargar
                 const usuarioActual = auth.currentUser !== null;
                 cargarFotosDesdeFirestore(usuarioActual);
             } catch (error) {
