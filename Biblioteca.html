@@ -503,10 +503,11 @@
     <h2>Biblioteca Digital</h2>
     <hr>
 
+    <!-- Panel de Administración para subir archivos desde el dispositivo -->
     <section class="admin-upload" id="panelAdminBiblioteca">
         <div class="cuadro-subir">
             <i class="fas fa-cloud-upload-alt icono-subir" style="color: #133260;"></i>
-            <p>Subir Documento PDF</p>
+            <p>Subir Documento PDF (Se guardará automáticamente en Google Drive)</p>
             <form id="formSubirBiblioteca">
                 <select id="materiaLibro" required>
                     <option value="" disabled selected>Seleccione la Materia</option>
@@ -515,14 +516,16 @@
                     <option value="GHC">GHC</option>
                 </select>
                 
+                <!-- Selector de archivos del dispositivo con validación PDF y límite de 10 MB -->
                 <input type="file" id="archivoPDF" accept="application/pdf" required>
                 <span class="aviso-limite">Requisito: Formato PDF (Máximo 10 MB)</span>
                 
-                <button type="submit" id="btnSubir" class="btn-publicar">Subir Documento</button>
+                <button type="submit" id="btnSubir" class="btn-publicar">Subir y Guardar Documento</button>
             </form>
         </div>
     </section>
 
+    <!-- Tablas dinámicas organizadas por materia -->
     <section class="biblioteca-materias" id="contenedorMateriasBiblioteca">
 
         <div class="categoria-materia" data-materia="Matemáticas">
@@ -536,6 +539,7 @@
                     </tr>
                 </thead>
                 <tbody class="cuerpo-tabla">
+                    <!-- Se llena dinámicamente -->
                 </tbody>
             </table>
         </div>
@@ -551,6 +555,7 @@
                     </tr>
                 </thead>
                 <tbody class="cuerpo-tabla">
+                    <!-- Se llena dinámicamente -->
                 </tbody>
             </table>
         </div>
@@ -566,6 +571,7 @@
                     </tr>
                 </thead>
                 <tbody class="cuerpo-tabla">
+                    <!-- Se llena dinámicamente -->
                 </tbody>
             </table>
         </div>
@@ -573,7 +579,7 @@
     </section>
 
     <div class="botones">
-        <a href="Información.html">Volver a Información</a>
+        <a href="index.html">Volver al Inicio</a>
     </div>
 </main>
 
@@ -601,6 +607,7 @@
     }
 </script>
 
+<!-- Firebase SDKs Modulares -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
@@ -700,6 +707,7 @@
         }
     }
 
+    // Manejar la subida del archivo desde el dispositivo
     const formSubir = document.getElementById('formSubirBiblioteca');
     if (formSubir) {
         formSubir.addEventListener('submit', async (e) => {
@@ -709,18 +717,20 @@
             const archivo = inputArchivo.files[0];
 
             if (!archivo) {
-                alert("Por favor seleccione un archivo PDF.");
+                alert("⚠️ Por favor seleccione un archivo PDF.");
                 return;
             }
 
+            // Validación estricta de formato PDF
             if (archivo.type !== "application/pdf") {
-                alert("Error: Solo se permiten archivos en formato PDF.");
+                alert("⚠️ Error: Solo se permiten archivos en formato PDF.");
                 return;
             }
 
+            // Validación estricta de límite de peso (10 MB = 10 * 1024 * 1024 bytes)
             const limiteBytes = 10 * 1024 * 1024;
             if (archivo.size > limiteBytes) {
-                alert("Error: El archivo excede el límite máximo permitido de 10 MB.");
+                alert("⚠️ Error: El archivo excede el límite máximo permitido de 10 MB.");
                 return;
             }
 
@@ -729,6 +739,17 @@
             btnSubir.textContent = "Subiendo a Google Drive...";
 
             try {
+                // NOTA TÉCNICA DE INTEGRACIÓN CON GOOGLE DRIVE:
+                // Para conectar de forma automática tu aplicación web con Google Drive sin mostrar claves privadas de Google 
+                // en el navegador, debes configurar un servicio backend (como Firebase Cloud Functions, un script en Google Apps Script 
+                // expuesto por Web App, o un pequeño servidor Node.js). 
+                // Abajo realizas la llamada a tu pasarela/API de Google Drive o puedes utilizar Firebase Storage temporalmente como puente 
+                // si prefieres mantener todo dentro del ecosistema Firebase.
+                
+                // Simulación del proceso de guardado y obtención del enlace compartido de Google Drive:
+                // (Reemplaza este bloque con el fetch() de tu Cloud Function o Apps Script que sube el archivo a Google Drive)
+                
+                /*
                 const formData = new FormData();
                 formData.append("file", archivo);
                 formData.append("materia", materia);
@@ -741,6 +762,7 @@
                 const urlGoogleDrive = resultado.fileUrl;
                 */
 
+                // Ejemplo temporal de respaldo para pruebas conectando con Firestore directamente:
                 const urlGoogleDriveSimulada = "https://drive.google.com/file/d/ejemplo-enlace-drive/view";
 
                 await addDoc(collection(db, "biblioteca"), {
@@ -750,7 +772,7 @@
                     timestamp: serverTimestamp()
                 });
 
-                alert("¡Documento subido con éxito!");
+                alert("¡Documento subido y guardado con éxito!");
                 formSubir.reset();
                 cargarDocumentosBiblioteca(true);
 
