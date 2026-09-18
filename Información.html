@@ -250,7 +250,6 @@
             font-size: 0.9rem;
         }
 
-        /* Panel de administración para agregar bloques nuevos si se desea */
         .admin-controls {
             display: none;
             background: #fdfdfd;
@@ -304,7 +303,6 @@
             background-color: #218838;
         }
 
-        /* Controles de edición y eliminación por bloque */
         .admin-block-controls {
             display: none;
             margin-top: 15px;
@@ -485,22 +483,20 @@
         Bienvenido a la sección informativa de nuestra institución. Aquí encontrarás las pautas generales sobre el funcionamiento académico del plantel, la organización horaria y los recaudos necesarios para la tramitación de matrícula correspondiente al año escolar.
     </p>
 
-    <!-- Panel opcional por si deseas agregar más bloques en el futuro -->
     <div id="panelAdminInformacion" class="admin-controls">
-        <h3>Panel de Administración - Agregar Nuevo Bloque Informativo</h3>
+        <h3> Agregar Nuevo Bloque Informativo</h3>
         <form id="formAgregarInformacion">
-            <input type="text" id="tituloBloqueNuevo" placeholder="Título del bloque (ej: Normas de Convivencia)" required>
+            <input type="text" id="tituloBloqueNuevo" placeholder="Título del bloque" required>
             <textarea id="itemsBloqueNuevo" rows="4" placeholder="Escribe cada punto separado por un salto de línea..." required></textarea>
             <button type="submit">Agregar Bloque</button>
         </form>
     </div>
 
     <section class="seccion-info" id="contenedorSeccionesInfo">
-        <!-- Los bloques se cargarán automáticamente desde Firestore o se mostrarán los predeterminados -->
     </section>
    
     <div class="botones">
-        <a href="index.html">Volver al Inicio</a>
+        <a href="Noticias.html">Volver a Noticias</a>
     </div>
 </main>
 
@@ -508,7 +504,7 @@
     <div class="contacto">
         <img src="logo.png" alt="Escudo Footer" class="footer-logo">
         <div class="footer-item"><i class="fas fa-at"></i> <span>@Liceo.JGR</span></div>
-        <div class="footer-item"><i class="fas fa-map-marker-alt"></i> <span>Av. Principal</span></div>
+        <div class="footer-item"><i class="fas fa-map-marker-alt"></i> <span>Calle Retumbo</span></div>
         <div class="footer-item"><i class="fas fa-phone"></i> <span>+54 04243096172</span></div>
         <div class="footer-item schedule">
             <i class="fas fa-clock"></i>
@@ -528,7 +524,6 @@
     }
 </script>
 
-<!-- Firebase SDKs Modulares -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
@@ -547,7 +542,6 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Datos por defecto por si Firestore está vacío la primera vez
     const bloquesPorDefecto = [
         {
             titulo: "Requisitos de Inscripción",
@@ -581,7 +575,6 @@
         }
     ];
 
-    // Monitorear sesión compartida
     onAuthStateChanged(auth, async (user) => {
         const panelAdmin = document.getElementById('panelAdminInformacion');
         const btnCerrarSesion = document.getElementById('btn-cerrar-sesion');
@@ -603,7 +596,6 @@
         });
     };
 
-    // Cargar bloques desde Firestore (si está vacío, inicializa los por defecto)
     async function cargarInformacion(esAdmin) {
         const contenedor = document.getElementById('contenedorSeccionesInfo');
         contenedor.innerHTML = "";
@@ -612,7 +604,6 @@
             const querySnapshot = await getDocs(collection(db, "informacion"));
             
             if (querySnapshot.empty) {
-                // Si la base de datos está vacía, subimos los por defecto automáticamente
                 for (let bloque of bloquesPorDefecto) {
                     await addDoc(collection(db, "informacion"), {
                         titulo: bloque.titulo,
@@ -621,7 +612,7 @@
                         timestamp: serverTimestamp()
                     });
                 }
-                return cargarInformacion(esAdmin); // Recargar
+                return cargarInformacion(esAdmin);
             }
 
             querySnapshot.forEach((documento) => {
@@ -663,13 +654,11 @@
         }
     }
 
-    // Editar título y requisitos/puntos de un bloque en Firestore
     window.editarBloque = async function(idDoc, tituloActual) {
         const nuevoTitulo = prompt("Modificar el título del bloque:", tituloActual);
         if (nuevoTitulo === null) return;
 
-        // Pedir los nuevos puntos separados por salto de línea
-        const nuevoTextoItems = prompt("Modifica los puntos o requisitos (separa cada elemento con un salto de línea):");
+        const nuevoTextoItems = prompt("Modifica los puntos (separa cada elemento con un salto de línea):");
         if (nuevoTextoItems === null) return;
 
         const nuevosItemsArray = nuevoTextoItems.split('\n').map(item => item.trim()).filter(item => item.length > 0);
@@ -687,7 +676,6 @@
         }
     };
 
-    // Eliminar bloque completo de Firestore
     window.eliminarBloque = async function(idDoc) {
         if (confirm("¿Estás seguro de que deseas eliminar este bloque de información?")) {
             try {
@@ -700,7 +688,6 @@
         }
     };
 
-    // Agregar nuevo bloque opcional
     const formAgregar = document.getElementById('formAgregarInformacion');
     if (formAgregar) {
         formAgregar.addEventListener('submit', async (e) => {
