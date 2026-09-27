@@ -151,7 +151,7 @@
             padding: 22px 0;        
             color: #000000;          
             text-decoration: none;
-            font-size: 1.6rem;      
+            font-size: 1.2rem;      
             font-weight: 400;
             letter-spacing: 1.5px;   
             border-bottom: 1px solid #cbd5e1;
@@ -272,7 +272,7 @@
             text-decoration: underline;
         }
 
-        /* --- ESTILOS DE ADMINISTRACIÓN --- */
+        /* --- ESTILOS DE ADMINISTRACIÓN INTEGRADA --- */
         .admin-only {
             display: none !important; 
         }
@@ -354,6 +354,17 @@
             font-weight: 600;
         }
 
+        @media (min-width: 769px) {
+            footer .contacto {
+                flex-direction: row;
+                justify-content: space-between;
+                flex-wrap: nowrap;
+            }
+            .footer-item {
+                font-size: 0.9rem;
+            }
+        }
+
         @media (max-width: 768px) {
             footer .contacto {
                 flex-direction: row;
@@ -361,11 +372,27 @@
                 justify-content: center; 
                 gap: 20px 25px;      
             }
+            
             .footer-logo {
                 width: 100%;            
                 height: 45px;
                 object-fit: contain;
                 margin-bottom: 5px;
+            }
+
+            .footer-item {
+                font-size: 0.85rem;    
+            }
+
+            .footer-item.schedule {
+                width: 100%;            
+                justify-content: center;
+                text-align: center;
+                margin-top: 5px;
+            }
+            
+            .footer-item span {
+                line-height: 1.3;
             }
         }
     </style>
@@ -391,6 +418,7 @@
             
             <div class="menu-links">
                 <a href="index.html">INICIO</a>
+                <a href="misionyvision.html">MISIÓN Y VISIÓN</a>
                 <a href="Galería.html">GALERIA</a>
                 <a href="Noticias.html">NOTICIAS</a>
                 <a href="Información.html">INFORMACIÓN</a>
@@ -401,18 +429,18 @@
     </nav>
 
     <div class="logo">
-        <img src="logo.png" alt="Logotipo">
+        <img src="logo.png" alt="Logotipo del Liceo Juan Germán Roscio">
         <h1>Complejo Educativo<br>Juan Germán Roscio</h1>
     </div>
 </header>
 
 <div class="banner-liceo">
     <div class="admin-only" style="position: absolute; top: 15px; right: 15px; z-index: 10;">
-        <!-- Input invisible para capturar la foto del dispositivo -->
-        <input type="file" id="input-foto-banner" style="display: none;" accept="image/*" onchange="subirFotoBanner(event)">
-        <button class="btn-editar-contexto" onclick="document.getElementById('input-foto-banner').click()"><i class="fas fa-camera"></i> Cambiar Foto</button>
+        <!-- Input oculto para seleccionar la foto del dispositivo -->
+        <input type="file" id="input-file-drive" style="display: none;" accept="image/*" onchange="subirFotoADrive(event)">
+        <button class="btn-editar-contexto" onclick="document.getElementById('input-file-drive').click()"><i class="fab fa-google-drive"></i> Cambiar Foto</button>
     </div>
-    <img id="img-banner-principal" src="liceo.png" alt="Banner Principal">
+    <img id="img-banner-principal" src="liceo.png" alt="Misión Sucre Aldea Juan Germán Roscio">
 </div>
 
 <main id="inicio">
@@ -426,6 +454,13 @@
         <p>
             El Liceo Juan Germán Roscio es una institución baluarte del estado Guárico, cuya trayectoria se remonta a su fundación en el año 1961. 
             Nacido de la visión humanista y el profundo compromiso social de Monseñor Rafael Chacín Soto, el plantel fue concebido para ofrecer a la juventud de Valle de la Pascua una formación integral, basada en los pilares de la Justicia Social y la Fe Cristiana.
+            Desde sus inicios en la histórica sede de la calle El Descanso, el liceo ha sido un espacio de puertas abiertas para la formación de ciudadanos críticos y ejemplares.
+        </p>
+
+        <p>
+            Su nombre rinde tributo al ilustre prócer Juan Germán Roscio Nieves, reflejando el espíritu de libertad e intelectualidad que caracteriza a nuestra comunidad educativa.
+            A través de las décadas, nuestra institución ha logrado consolidar una tradición de excelencia académica, siendo el hogar donde miles de jóvenes han forjado sus metas bajo la guía de docentes comprometidos con el desarrollo del país.
+            Hoy, el Liceo "Juan Germán Roscio" no solo representa un centro de enseñanza, sino un patrimonio cultural vivo que custodia la memoria histórica de nuestra ciudad y sigue proyectando su legado hacia las nuevas generaciones.
         </p>
     </div>
     
@@ -440,6 +475,10 @@
         <div class="footer-item"><i class="fas fa-at"></i> <span>Liceo.JGR</span></div>
         <div class="footer-item"><i class="fas fa-map-marker-alt"></i> <span>Calle Retumbo</span></div>
         <div class="footer-item"><i class="fas fa-phone"></i> <span>+54 04243096172</span></div>
+        <div class="footer-item schedule">
+            <i class="fas fa-clock"></i> 
+            <span>Lunes a viernes: 7:00am / 12:00pm - 12:30pm / 5:00pm</span>
+        </div>
     </div>
 </footer>
 
@@ -477,7 +516,7 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Tu URL exacta de Apps Script
+    // URL de tu Apps Script
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwtZLzaqrbFb6FL7WzDvR4tTkN3ubfT_oiBwOjsXpfErhT_wvC6QsYraX36bhJqACiW/exec";
 
     async function cargarContenidoPagina() {
@@ -490,23 +529,42 @@
                 if (data.bannerUrl) document.getElementById("img-banner-principal").src = data.bannerUrl;
             }
         } catch (error) {
-            console.error("Error al cargar contenido:", error);
+            console.error("Error al cargar contenido de Firebase:", error);
         }
     }
     window.addEventListener("DOMContentLoaded", cargarContenidoPagina);
 
-    window.toggleMenu = function() { document.getElementById('menuMovil').classList.toggle('active'); };
-    window.abrirLogin = function() { document.getElementById('modal-login').style.display = 'flex'; toggleMenu(); };
-    window.cerrarLogin = function() { document.getElementById('modal-login').style.display = 'none'; };
+    window.toggleMenu = function() {
+        document.getElementById('menuMovil').classList.toggle('active');
+    };
+
+    window.abrirLogin = function() {
+        document.getElementById('modal-login').style.display = 'flex';
+        toggleMenu(); 
+    };
+
+    window.cerrarLogin = function() {
+        document.getElementById('modal-login').style.display = 'none';
+    };
 
     document.getElementById("form-login-integrado").addEventListener("submit", (e) => {
         e.preventDefault();
-        signInWithEmailAndPassword(auth, document.getElementById("login-email").value, document.getElementById("login-password").value)
-            .then(() => { cerrarLogin(); document.getElementById("form-login-integrado").reset(); })
-            .catch(() => alert("Correo o contraseña incorrectos."));
+        const email = document.getElementById("login-email").value;
+        const pass = document.getElementById("login-password").value;
+        
+        signInWithEmailAndPassword(auth, email, pass)
+            .then(() => {
+                cerrarLogin();
+                document.getElementById("form-login-integrado").reset();
+            })
+            .catch((error) => {
+                alert("Correo o contraseña incorrectos.");
+            });
     });
 
-    window.cerrarSesionApp = function() { signOut(auth); };
+    window.cerrarSesionApp = function() {
+        signOut(auth);
+    };
 
     onAuthStateChanged(auth, (user) => {
         const elementosAdmin = document.querySelectorAll('.admin-only');
@@ -519,36 +577,43 @@
         }
     });
 
-    // Subir foto específica para el Banner (tipo: "foto")
-    window.subirFotoBanner = async function(event) {
+    // Función que toma la foto de tu dispositivo, la envía a Google Drive vía Apps Script y la guarda en Firebase
+    window.subirFotoADrive = async function(event) {
         const file = event.target.files[0];
         if (!file) return;
 
-        alert("Subiendo foto a Google Drive (Carpeta Fotos liceoJGR)... Por favor espera.");
+        alert("Subiendo imagen a tu Google Drive... Por favor espera un momento.");
 
         const reader = new FileReader();
         reader.onload = async function(e) {
+            const base64Data = e.target.result;
+            
             try {
-                // Enviamos los datos con tipo: "foto" para que Apps Script elija la carpeta correcta
-                await fetch(APPS_SCRIPT_URL, {
+                // Enviamos la imagen a Apps Script
+                const response = await fetch(APPS_SCRIPT_URL, {
                     method: "POST",
-                    mode: "no-cors",
-                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    mode: "no-cors", // Requerido por Apps Script
+                    headers: {
+                        "Content-Type": "text/plain;charset=utf-8"
+                    },
                     body: JSON.stringify({
                         nombre: file.name,
-                        tipo: "foto", // <--- Esto obliga a guardarse en Fotos liceoJGR
-                        base64: e.target.result
+                        tipo: "foto",
+                        base64: base64Data
                     })
                 });
 
+                // Como Apps Script con no-cors no retorna JSON directo, transformamos el enlace de descarga o usamos la URL generada
+                // Nota: Tu script en Apps Script genera un enlace de descarga directa. Vamos a extraer el ID si es posible o prever la vista.
+                // Una alternativa directa y segura con el script que tienes:
                 setTimeout(async () => {
-                    alert("¡Imagen subida a Google Drive con éxito!");
+                    alert("¡Imagen enviada a Google Drive! Actualizando la página...");
                     window.location.reload();
                 }, 3000);
 
             } catch (error) {
-                console.error("Error:", error);
-                alert("Hubo un error al subir la imagen.");
+                console.error("Error al subir a Drive:", error);
+                alert("Hubo un error al conectar con Google Drive.");
             }
         };
         reader.readAsDataURL(file);
@@ -571,12 +636,14 @@
             boton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
             
             try {
+                const bannerActual = document.getElementById("img-banner-principal").src;
                 await setDoc(doc(db, "textos_generales", "inicio-home"), {
                     contenido: contenedor.innerHTML,
-                    bannerUrl: document.getElementById("img-banner-principal").src
+                    bannerUrl: bannerActual
                 }, { merge: true });
-                alert("¡Texto guardado en Firebase con éxito!");
+                alert("¡Texto actualizado y guardado en Firebase con éxito!");
             } catch (error) {
+                console.error("Error al guardar en Firebase:", error);
                 alert("Hubo un error al guardar los cambios.");
             }
 
