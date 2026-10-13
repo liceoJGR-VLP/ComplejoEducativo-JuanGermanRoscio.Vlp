@@ -95,7 +95,7 @@
         }
 
         .menu-desplegable.active {
-            left: 0;                 
+            left: 0;                  
         }
 
         .menu-header {
@@ -148,14 +148,14 @@
             display: block;
             width: 100%;
             text-align: center;
-            padding: 22px 0;
-            color: #000000;
+            padding: 22px 0;        
+            color: #000000;          
             text-decoration: none;
-            font-size: 1.6rem;
+            font-size: 1.6rem;      
             font-weight: 400;
-            letter-spacing: 1.5px;
+            letter-spacing: 1.5px;   
             border-bottom: 1px solid #cbd5e1;
-            font-family: serif;
+            font-family: serif;      
             transition: background-color 0.2s;
         }
 
@@ -223,6 +223,7 @@
             object-fit: cover; 
             display: block;
             cursor: pointer;
+            background-color: #f1ede2;
         }
 
         .foto .info-foto {
@@ -321,7 +322,7 @@
             background-color: #c82333;
         }
 
-        /* Ventana emergente (Lightbox) para ampliar imagen y ver texto abajo */
+        /* Ventana emergente (Lightbox) */
         .lightbox-modal {
             display: none;
             position: fixed;
@@ -535,7 +536,6 @@
     </div>
 
     <section class="grid-galeria" id="gridGaleria">
-        <!-- Contenido predeterminado si Firestore está vacío -->
         <div class="foto">
             <img src="img/fachada.jpg" alt="Fachada del Liceo" onclick="ampliarFoto('img/fachada.jpg', 'Nuestra Sede Principal', 'Predeterminado')">
             <div class="info-foto">
@@ -612,7 +612,14 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwtZLzaqrbFb6FL7WzDvR4tTkN3ubfT_oiBwOjsXpfErhT_wvC6QsYraX36bhJqACiW/exec";
+    // Nuevo enlace de Apps Script integrado
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw-nZOeabsf4rYXE8xH92RFhHxT_Ej280DprtS2OZ9m9-eJzPGxjUNEDix7AQ2fbA2w/exec";
+
+    function formatearUrlDirectaDrive(url) {
+        if (!url) return url;
+        const fileIdMatch = url.match(/[-\w]{25,}/);
+        return fileIdMatch ? `https://lh3.googleusercontent.com/d/${fileIdMatch[0]}` : url;
+    }
 
     window.toggleMenu = function() {
         document.getElementById('menuMovil').classList.toggle('active');
@@ -623,12 +630,12 @@
         if (input.files && input.files[0]) {
             span.textContent = "Archivo: " + input.files[0].name;
         } else {
-            span.textContent = "Seleccionar foto de la galería";
+            span.textContent = "Seleccionar foto";
         }
     };
 
     window.ampliarFoto = function(url, titulo, fecha) {
-        document.getElementById('imgLightbox').src = url;
+        document.getElementById('imgLightbox').src = formatearUrlDirectaDrive(url);
         document.getElementById('textoLightbox').textContent = titulo;
         document.getElementById('fechaLightbox').textContent = "Fecha: " + fecha;
         document.getElementById('lightboxModal').style.display = 'flex';
@@ -677,9 +684,10 @@
                     fotoDiv.className = 'foto';
                     
                     const fechaFormateada = data.fechaFoto || "No especificada";
+                    const urlDirecta = formatearUrlDirectaDrive(data.url);
 
                     let contenidoHTML = `
-                        <img src="${data.url}" alt="${data.titulo}" onclick="ampliarFoto('${data.url}', '${data.titulo.replace(/'/g, "\\'")}', '${fechaFormateada}')">
+                        <img src="${urlDirecta}" alt="${data.titulo}" onclick="ampliarFoto('${urlDirecta}', '${data.titulo.replace(/'/g, "\\'")}', '${fechaFormateada}')">
                         <div class="info-foto">
                             <p>${data.titulo}</p>
                             <span class="fecha-foto">Fecha: ${fechaFormateada}</span>
@@ -731,8 +739,8 @@
 
                     const resultadoJson = await response.json();
 
-                    if (resultadoJson.resultado === "success") {
-                        const urlDrive = resultadoJson.url;
+                    if (resultadoJson.resultado === "success" || resultadoJson.status === "success") {
+                        const urlDrive = formatearUrlDirectaDrive(resultadoJson.url);
 
                         await addDoc(collection(db, "galeria"), {
                             url: urlDrive,
@@ -744,10 +752,10 @@
                         inputArchivo.value = '';
                         document.getElementById('tituloFoto').value = '';
                         document.getElementById('fechaFoto').value = '';
-                        document.getElementById('textoSeleccion').textContent = "Seleccionar foto de la galería";
+                        document.getElementById('textoSeleccion').textContent = "Seleccionar foto";
                         cargarFotosDesdeFirestore(true);
                     } else {
-                        alert("Error al subir a Drive: " + resultadoJson.mensaje);
+                        alert("Error al subir a Drive: " + (resultadoJson.mensaje || resultadoJson.message || "Error desconocido"));
                     }
 
                 } catch (error) {
