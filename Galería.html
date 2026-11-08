@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería - Complejo Educativo Juan Germán Roscio</title>
+    <link rel="icon" href="logo.png">
+
+    <!-- NUEVO: Fuente Poppins (Google Fonts) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --azul-header: #133260;
+            --crema-fondo: #fbf8f0;
+            --texto-principal: #2d2d2d;
+            --dorado-link: #d2bc7a;
+        }
+
+        html, body {
+            width: 100%;
+            background-color: var(--crema-fondo);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--texto-principal);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--azul-header);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 4%;
+            height: 70px;
+            width: 100%;
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            background-color: #ffffff;
+            width: 24px;
+            height: 2.5px;
+            display: block;
+        }
+
+        header .logo {
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            gap: 12px;
+        }
+
+        header .logo img {
+            height: 46px;
+            width: auto;
+            background-color: transparent;
+            padding: 2px;
+            border-radius: 2px;
+        }
+
+        header .logo h1 {
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 400;
+            text-align: right;
+            line-height: 1.2;
+        }
+
+        .menu-desplegable {
+            position: fixed;
+            top: 0;
+            left: -100%;             
+            width: 100%;
+            height: 100vh;
+            background-color: var(--crema-fondo); 
+            z-index: 9999;            
+            transition: left 0.4s ease; 
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-desplegable.active {
+            left: 0;                  
+        }
+
+        .menu-header {
+            background-color: var(--azul-header);
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 4%;
+            width: 100%;
+        }
+
+        .close-menu {
+            color: #ffffff;
+            font-size: 2.2rem;
+            cursor: pointer;
+            font-weight: 300;
+            line-height: 1;
+        }
+
+        .logo-menu {
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-menu h1 {
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 400;
+            text-align: right;
+            line-height: 1.2;
+        }
+
+        .logo-menu img {
+            height: 46px;
+            width: auto;
+            background-color: transparent;
+        }
+    
+        .menu-links {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .menu-links a {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 22px 0;        
+            color: #000000;          
+            text-decoration: none;
+            font-size: 1.2rem;      
+            font-weight: 400;
+            letter-spacing: 1.5px;   
+            border-bottom: 1px solid #cbd5e1;
+            font-family: serif;      
+            transition: background-color 0.2s;
+        }
+
+        .menu-links a:hover, .menu-links a:active {
+            background-color: #f1ede2; 
+        }
+
+        main#galeria-seccion {
+            width: 90%;
+            max-width: 1100px; 
+            margin: 30px auto;
+            padding: 25px 22px;
+            background-color: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 2px 14px rgba(0,0,0,0.06);
+        }
+
+        main#galeria-seccion h2 {
+            font-size: 1.65rem;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+        }
+
+        main#galeria-seccion .subtitulo-galeria {
+            font-size: 1.02rem;
+            color: #666666;
+            margin-bottom: 20px;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #cbd5e1;
+            margin: 15px 0;
+        }
+        
+        .grid-galeria {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 15px 0;
+        }
+
+        .foto {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.04);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .foto:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .foto img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover; 
+            display: block;
+            cursor: pointer;
+            background-color: #f1ede2;
+        }
+
+        .foto .info-foto {
+            padding: 14px;
+            background: #ffffff;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .foto p {
+            margin: 0 0 5px 0;
+            font-size: 1rem;
+            color: var(--texto-principal);
+            font-weight: 500;
+        }
+
+        .foto .fecha-foto {
+            font-size: 0.82rem;
+            color: #777777;
+        }
+
+        /* Panel de administración */
+        .admin-controls {
+            display: none;
+            background: #fdfdfd;
+            border: 2px dashed #b8c2cc;
+            padding: 25px 20px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+        }
+
+        .admin-controls h3 {
+            color: var(--azul-header);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .admin-controls form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .admin-controls input[type="text"],
+        .admin-controls input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            background-color: #fafafa;
+        }
+
+        .btn-seleccionar-archivo {
+            background-color: var(--azul-header);
+            color: white;
+            border: none;
+            padding: 11px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.95rem;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .admin-controls button[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 11px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: background-color 0.2s;
+        }
+
+        .admin-controls button[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        .btn-eliminar {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        
+        .btn-eliminar:hover {
+            background-color: #c82333;
+        }
+
+        /* Ventana emergente (Lightbox) */
+        .lightbox-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .lightbox-content {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 700px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .lightbox-content img {
+            width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+
+        .lightbox-content p {
+            margin-top: 15px;
+            font-size: 1.15rem;
+            color: var(--texto-principal);
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .lightbox-content .lightbox-fecha {
+            margin-top: 5px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .close-lightbox {
+            position: absolute;
+            top: 10px; right: 15px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #333333;
+            font-weight: bold;
+        }
+
+        .botones {
+            margin-top: 25px;
+        }
+
+        .botones a {
+            color: var(--dorado-link);
+            text-decoration: underline;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        footer {
+            width: 100%;
+            background-color: var(--crema-fondo);
+            border-top: 1px solid #cbd5e1;
+            padding: 30px 6%;
+            margin-top: 60px;
+        }
+
+        footer .contacto {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-logo {
+            height: 45px;
+            width: auto;
+        }
+
+        .footer-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #333333;
+        }
+
+        .footer-item i {
+            color: #133260; 
+            font-size: 1.1rem;
+        }
+
+        .btn-flotante-logout {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #b91c1c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            z-index: 9999;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            font-family: inherit;
+            font-weight: 600;
+            display: none;
+        }
+
+        @media (min-width: 769px) {
+            footer .contacto {
+                flex-direction: row;
+                justify-content: space-between;
+                flex-wrap: nowrap;
+            }
+            .footer-item {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            footer .contacto {
+                flex-direction: row;
+                flex-wrap: wrap;        
+                justify-content: center; 
+                gap: 20px 25px;      
+            }
+            
+            .footer-logo {
+                width: 100%;            
+                height: 45px;
+                object-fit: contain;
+                margin-bottom: 5px;
+            }
+
+            .footer-item {
+                font-size: 0.85rem;    
+            }
+
+            .footer-item.schedule {
+                width: 100%;            
+                justify-content: center;
+                text-align: center;
+                margin-top: 5px;
+            }
+            
+            .footer-item span {
+                line-height: 1.3;
+            }
+        }
+
+        .link-admin {
+            margin-top: auto;
+            margin-bottom: 35px;
+            text-align: center;
+            color: #666666;
+            font-size: 0.85rem;
+            text-decoration: none;
+            letter-spacing: 1px;
+            font-family: sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .link-admin:hover {
+            color: var(--azul-header);
+            text-decoration: underline;
+        }
+    
+
+    /* INICIO ACTUALIZACIÓN: Rediseño visual general (tipografía Poppins, bordes redondeados y tarjetas).
+       Todo el rediseño vive en este bloque, al final de los estilos: sobrescribe lo necesario
+       y el resto del CSS original queda intacto. */
+    :root {
+        --azul-marino: #133260;
+        --radio-card: 18px;
+        --radio-control: 12px;
+    }
+
+    /* Tipografía Poppins en toda la página (incluye botones y formularios) */
+    html, body, button, input, select, textarea, .menu-links a, .link-admin {
+        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .menu-links a {
+        font-weight: 500;
+        letter-spacing: 1px;
+    }
+
+    header {
+        box-shadow: 0 6px 20px rgba(19, 50, 96, 0.25);
+    }
+
+    footer {
+        border-radius: 28px 28px 0 0;
+    }
+
+    /* Contenedores principales con bordes más redondeados */
+    main#biblioteca, main#documentos, main#galeria-seccion,
+    main#informacion, main#contenido-seccion, main#noticias {
+        border-radius: 24px;
+    }
+
+    /* Campos de formulario redondeados (!important porque las reglas originales son más específicas) */
+    .admin-controls input, .admin-controls textarea, .admin-controls select,
+    .cuadro-subir select, .cuadro-subir input,
+    .generador input, .generador select, .generador textarea,
+    .panel-emergentes input, .panel-emergentes select, .panel-emergentes textarea,
+    .input-group, .modal-content input {
+        border-radius: var(--radio-control) !important;
+    }
+
+    .admin-controls input:focus, .admin-controls textarea:focus, .admin-controls select:focus,
+    .cuadro-subir select:focus, .cuadro-subir input:focus,
+    .generador input:focus, .generador select:focus, .generador textarea:focus,
+    .panel-emergentes input:focus, .panel-emergentes select:focus, .panel-emergentes textarea:focus {
+        outline: none;
+        border-color: var(--azul-marino);
+        box-shadow: 0 0 0 3px rgba(19, 50, 96, 0.15);
+    }
+
+    .input-group:focus-within {
+        border-color: var(--azul-marino);
+        box-shadow: 0 0 0 3px rgba(19, 50, 96, 0.15);
+    }
+
+    /* Botones redondeados */
+    .btn-action, .btn-login, .btn-ingresar, .btn-publicar, .btn-imprimir,
+    .btn-seleccionar-archivo, .btn-eliminar-doc, .btn-admin-accion, .btn-editar-contexto,
+    .btn-logout, .noticia .btn-eliminar, .admin-controls button[type="submit"],
+    .btn-publicar-emergente, .btn-mini {
+        border-radius: var(--radio-control) !important;
+    }
+
+    /* Paneles y ventanas */
+    .admin-controls, .cuadro-subir, .generador, .login-card, .lightbox-content, .modal-content {
+        border-radius: 20px;
+    }
+
+    .lightbox-content img {
+        border-radius: 12px;
+    }
+
+    .hoja-wrapper {
+        border-radius: 14px;
+    }
+
+    .fecha-badge {
+        border-radius: 999px;
+    }
+
+    .banner-liceo {
+        border-radius: 0 0 28px 28px;
+    }
+
+    /* Tablas con esquinas redondeadas (separate permite que el radio se vea) */
+    .tabla-biblioteca {
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: 14px !important;
+    }
+
+    /* Tarjetas interactivas: al presionar, el borde se vuelve azul marino y la tarjeta "emerge" con brillo del mismo color */
+    .foto {
+        background-color: #ffffff;
+        border: 2px solid #e2e8f0;
+        border-radius: var(--radio-card);
+        box-shadow: 0 4px 14px rgba(19, 50, 96, 0.06);
+        cursor: pointer;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    @media (hover: hover) {
+        .foto:hover {
+            border-color: var(--azul-marino);
+            box-shadow: 0 10px 24px rgba(19, 50, 96, 0.18);
+            transform: translateY(-3px);
+        }
+    }
+
+    .foto:active,
+    .foto.card-activa {
+        border-color: var(--azul-marino);
+        box-shadow: 0 0 0 3px rgba(19, 50, 96, 0.14), 0 0 28px rgba(19, 50, 96, 0.38), 0 16px 36px rgba(19, 50, 96, 0.30);
+        transform: translateY(-6px);
+    }
+    /* FIN ACTUALIZACIÓN: Rediseño visual general */
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <div class="menu-desplegable" id="menuMovil">
+            <div class="menu-header">
+                <div class="close-menu" onclick="toggleMenu()">&times;</div>
+                <div class="logo-menu">
+                    <img src="logo.png" alt="Logo">
+                    <h1>Complejo Educativo<br>Juan Germán Roscio</h1>
+                </div>
+            </div>
+            
+            <div class="menu-links">
+                <a href="index.html">INICIO</a>
+                <a href="misionyvision.html">MISIÓN Y VISIÓN</a>
+                <a href="Galería.html">GALERIA</a>
+                <a href="Noticias.html">NOTICIAS</a>
+                <a href="Información.html">INFORMACIÓN</a>
+                <a href="Biblioteca.html">BIBLIOTECA</a>
+                <a href="Documentos.html">DOCUMENTOS</a>
+            </div>
+            <a href="Admin.html" class="link-admin"><i class="fas fa-user-lock"></i> Acceso Administrativo</a>
+        </div>
+    </nav>
+
+    <div class="logo">
+        <img src="logo.png" alt="Logotipo del Liceo Juan Germán Roscio">
+        <h1>Complejo Educativo<br>Juan Germán Roscio</h1>
+    </div>
+</header>
+
+<main id="galeria-seccion">
+    <hr>
+    <h2>Galería</h2>
+    <hr>
+    <p class="subtitulo-galeria">Explora las instalaciones</p>
+
+    <div id="panelAdminGaleria" class="admin-controls">
+        <h3>Subir Nueva Foto</h3>
+        <form id="formAgregarFoto">
+            <input type="file" id="archivoFoto" accept="image/*" style="display: none;" required onchange="actualizarNombreArchivo(this)">
+            <button type="button" class="btn-seleccionar-archivo" onclick="document.getElementById('archivoFoto').click()">
+                <i class="fab fa-google-drive"></i> <span id="textoSeleccion">Seleccionar foto</span>
+            </button>
+            <input type="text" id="tituloFoto" placeholder="Descripción de la foto" required>
+            <input type="date" id="fechaFoto" required>
+            <button type="submit">Subir</button>
+        </form>
+    </div>
+
+    <section class="grid-galeria" id="gridGaleria">
+        <div class="foto">
+            <img src="img/fachada.jpg" alt="Fachada del Liceo" onclick="ampliarFoto('img/fachada.jpg', 'Nuestra Sede Principal', 'Predeterminado')">
+            <div class="info-foto">
+                <p>Nuestra Sede Principal</p>
+                <span class="fecha-foto">Fecha:</span>
+            </div>
+        </div>
+        
+        <div class="foto">
+            <img src="img/evento1.jpg" alt="Evento escolar" onclick="ampliarFoto('img/evento1.jpg', 'Actividades Culturales', 'Predeterminado')">
+            <div class="info-foto">
+                <p>Actividades Culturales</p>
+                <span class="fecha-foto">Fecha:</span>
+            </div>
+        </div>
+
+        <div class="foto">
+            <img src="img/estudiantes.jpg" alt="Grupo de estudiantes" onclick="ampliarFoto('img/estudiantes.jpg', 'Comunidad Estudiantil', 'Predeterminado')">
+            <div class="info-foto">
+                <p>Comunidad Estudiantil</p>
+                <span class="fecha-foto">Fecha:</span>
+            </div>
+        </div>
+    </section>
+
+    <hr>
+    <div class="botones">
+        <a href="index.html">Volver al Inicio</a>
+    </div>
+</main>
+
+<!-- Ventana emergente (Lightbox) -->
+<div id="lightboxModal" class="lightbox-modal">
+    <div class="lightbox-content">
+        <span class="close-lightbox" onclick="cerrarLightbox()">&times;</span>
+        <img id="imgLightbox" src="" alt="Imagen ampliada">
+        <p id="textoLightbox"></p>
+        <span id="fechaLightbox" class="lightbox-fecha"></span>
+    </div>
+</div>
+
+<footer>
+    <div class="contacto">
+        <img src="logo.png" alt="Escudo Footer" class="footer-logo">
+        <div class="footer-item"><i class="fas fa-at"></i> <span>@Liceo.JGR</span></div>
+        <div class="footer-item"><i class="fas fa-map-marker-alt"></i> <span>Calle Retumbo</span></div>
+        <div class="footer-item"><i class="fas fa-phone"></i> <span>+58 424-3096172</span></div>
+        <div class="footer-item schedule">
+            <i class="fas fa-clock"></i> 
+            <span>Lunes a viernes: 7:00am / 12:00pm - 12:30pm / 5:00pm</span>
+        </div>
+    </div>
+</footer>
+
+<button id="btn-cerrar-sesion" class="btn-flotante-logout" onclick="cerrarSesionApp()">
+    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+</button>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+    import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBCt3kJHxHP76a2HcvOqzjsS2nXZclpKv8",
+        authDomain: "liceo-jgr.firebaseapp.com",
+        projectId: "liceo-jgr",
+        storageBucket: "liceo-jgr.firebasestorage.app",
+        messagingSenderId: "266825809601",
+        appId: "1:266825809601:web:bd1da9e6ca229f12fd5e40"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Nuevo enlace de Apps Script integrado
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw-nZOeabsf4rYXE8xH92RFhHxT_Ej280DprtS2OZ9m9-eJzPGxjUNEDix7AQ2fbA2w/exec";
+
+    function escapar(texto) {
+        return String(texto ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;");
+    }
+
+    function formatearUrlDirectaDrive(url) {
+        if (!url) return url;
+        const fileIdMatch = url.match(/[-\w]{25,}/);
+        return fileIdMatch ? `https://lh3.googleusercontent.com/d/${fileIdMatch[0]}` : url;
+    }
+
+    window.toggleMenu = function() {
+        document.getElementById('menuMovil').classList.toggle('active');
+    };
+
+    window.actualizarNombreArchivo = function(input) {
+        const span = document.getElementById('textoSeleccion');
+        if (input.files && input.files[0]) {
+            span.textContent = "Archivo: " + input.files[0].name;
+        } else {
+            span.textContent = "Seleccionar foto";
+        }
+    };
+
+    window.ampliarFoto = function(url, titulo, fecha) {
+        document.getElementById('imgLightbox').src = formatearUrlDirectaDrive(url);
+        document.getElementById('textoLightbox').textContent = titulo;
+        document.getElementById('fechaLightbox').textContent = "Fecha: " + fecha;
+        document.getElementById('lightboxModal').style.display = 'flex';
+    };
+
+    window.cerrarLightbox = function() {
+        document.getElementById('lightboxModal').style.display = 'none';
+    };
+
+    document.getElementById('lightboxModal').addEventListener('click', (e) => {
+        if (e.target.id === 'lightboxModal') {
+            cerrarLightbox();
+        }
+    });
+
+    onAuthStateChanged(auth, (user) => {
+        const panelAdmin = document.getElementById('panelAdminGaleria');
+        const btnCerrarSesion = document.getElementById('btn-cerrar-sesion');
+
+        if (user) {
+            if (panelAdmin) panelAdmin.style.display = 'block';
+            if (btnCerrarSesion) btnCerrarSesion.style.display = 'block';
+            cargarFotosDesdeFirestore(true);
+        } else {
+            if (panelAdmin) panelAdmin.style.display = 'none';
+            if (btnCerrarSesion) btnCerrarSesion.style.display = 'none';
+            cargarFotosDesdeFirestore(false);
+        }
+    });
+
+    window.cerrarSesionApp = function() {
+        signOut(auth).then(() => {
+            window.location.href = "index.html";
+        });
+    };
+
+    async function cargarFotosDesdeFirestore(esAdmin) {
+        const grid = document.getElementById('gridGaleria');
+        try {
+            const querySnapshot = await getDocs(collection(db, "galeria"));
+            if (!querySnapshot.empty) {
+                grid.innerHTML = ""; 
+                querySnapshot.forEach((documento) => {
+                    const data = documento.data();
+                    const fotoDiv = document.createElement('div');
+                    fotoDiv.className = 'foto';
+                    
+                    const fechaFormateada = data.fechaFoto || "No especificada";
+                    const urlDirecta = formatearUrlDirectaDrive(data.url);
+
+                    let contenidoHTML = `
+                        <img src="${urlDirecta}" alt="${escapar(data.titulo)}">
+                        <div class="info-foto">
+                            <p>${escapar(data.titulo)}</p>
+                            <span class="fecha-foto">Fecha: ${fechaFormateada}</span>
+                        </div>
+                    `;
+
+                    if (esAdmin) {
+                        contenidoHTML += `<button class="btn-eliminar" onclick="eliminarFoto('${documento.id}')">Eliminar</button>`;
+                    }
+
+                    fotoDiv.innerHTML = contenidoHTML;
+                    fotoDiv.querySelector('img').addEventListener('click', () => ampliarFoto(urlDirecta, data.titulo, fechaFormateada));
+                    grid.appendChild(fotoDiv);
+                });
+            }
+        } catch (error) {
+            console.error("Error al cargar la galería: ", error);
+        }
+    }
+
+    const formAgregar = document.getElementById('formAgregarFoto');
+    if (formAgregar) {
+        formAgregar.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const inputArchivo = document.getElementById('archivoFoto');
+            const titulo = document.getElementById('tituloFoto').value;
+            const fechaFoto = document.getElementById('fechaFoto').value;
+            const file = inputArchivo.files[0];
+
+            if (!file) {
+                alert("Selecciona una imagen.");
+                return;
+            }
+
+            alert("Subiendo foto... Por favor espera.");
+
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const base64Data = e.target.result;
+
+                try {
+                    const response = await fetch(APPS_SCRIPT_URL, {
+                        method: "POST",
+                        body: JSON.stringify({
+                            nombre: file.name,
+                            tipo: "foto",
+                            base64: base64Data
+                        })
+                    });
+
+                    const resultadoJson = await response.json();
+
+                    if (resultadoJson.resultado === "success" || resultadoJson.status === "success") {
+                        const urlDrive = formatearUrlDirectaDrive(resultadoJson.url);
+
+                        await addDoc(collection(db, "galeria"), {
+                            url: urlDrive,
+                            titulo: titulo,
+                            fechaFoto: fechaFoto
+                        });
+
+                        alert("¡Foto subida y agregada con su fecha a la galería!");
+                        inputArchivo.value = '';
+                        document.getElementById('tituloFoto').value = '';
+                        document.getElementById('fechaFoto').value = '';
+                        document.getElementById('textoSeleccion').textContent = "Seleccionar foto";
+                        cargarFotosDesdeFirestore(true);
+                    } else {
+                        alert("Error al subir a Drive: " + (resultadoJson.mensaje || resultadoJson.message || "Error desconocido"));
+                    }
+
+                } catch (error) {
+                    console.error("Error:", error);
+                    alert("Hubo un error de conexión");
+                }
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    window.eliminarFoto = async function(idDoc) {
+        if (confirm("¿Estás seguro de que deseas eliminar esta foto de la galería?")) {
+            try {
+                await deleteDoc(doc(db, "galeria", idDoc));
+                alert("Foto eliminada correctamente.");
+                const usuarioActual = auth.currentUser !== null;
+                cargarFotosDesdeFirestore(usuarioActual);
+            } catch (error) {
+                alert("Error al eliminar: " + error.message);
+            }
+        }
+    };
+</script>
+
+<!-- INICIO ACTUALIZACIÓN: efecto "emerger" al presionar una tarjeta (activa/desactiva la clase card-activa) -->
+<script>
+    (function () {
+        var SELECTOR_TARJETAS = '.foto';
+
+        document.addEventListener('click', function (e) {
+            var tarjeta = e.target.closest(SELECTOR_TARJETAS);
+            var activa = document.querySelector('.card-activa');
+
+            // Al tocar fuera (o en otra tarjeta) se apaga la que estaba activa
+            if (activa && activa !== tarjeta) activa.classList.remove('card-activa');
+
+            if (tarjeta) {
+                // Si el texto se está editando, solo se enciende (no se alterna) para no molestar al escribir
+                if (tarjeta.isContentEditable) tarjeta.classList.add('card-activa');
+                else tarjeta.classList.toggle('card-activa');
+            }
+        });
+    })();
+</script>
+<!-- FIN ACTUALIZACIÓN -->
+
+</body>
+</html>

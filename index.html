@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complejo Educativo Juan Germán Roscio</title>
+    <link rel="icon" href="logo.png">
+
+    <!-- NUEVO: Fuente Poppins (Google Fonts) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --azul-header: #133260;
+            --crema-fondo: #fbf8f0;
+            --texto-principal: #2d2d2d;
+            --dorado-link: #d2bc7a;
+        }
+
+        html, body {
+            width: 100%;
+            background-color: var(--crema-fondo);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--texto-principal);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--azul-header);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 4%;
+            height: 70px;
+            width: 100%;
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            background-color: #ffffff;
+            width: 24px;
+            height: 2.5px;
+            display: block;
+        }
+
+        header .logo {
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            gap: 12px;
+        }
+
+        header .logo img {
+            height: 46px;
+            width: auto;
+            background-color: transparent;
+            padding: 2px;
+            border-radius: 2px;
+        }
+
+                header .logo h1 {
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 400;
+            text-align: right;
+            line-height: 1.2;
+        }
+
+        /* Estilos correctos para el menú desplegable móvil */
+        .menu-desplegable {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--crema-fondo);
+            z-index: 9999;
+            transition: left 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .menu-desplegable.active {
+            left: 0;                  
+        }
+
+
+        .menu-desplegable.active {
+            left: 0;                  
+        }
+
+        .menu-header {
+            background-color: var(--azul-header);
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 4%;
+            width: 100%;
+        }
+
+        .close-menu {
+            color: #ffffff;
+            font-size: 2.2rem;
+            cursor: pointer;
+            font-weight: 300;
+            line-height: 1;
+        }
+
+        .logo-menu {
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-menu h1 {
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 400;
+            text-align: right;
+            line-height: 1.2;
+        }
+
+        .logo-menu img {
+            height: 46px;
+            width: auto;
+            background-color: transparent;
+        }
+    
+        .menu-links {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .menu-links a {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 22px 0;        
+            color: #000000;          
+            text-decoration: none;
+            font-size: 1.2rem;      
+            font-weight: 400;
+            letter-spacing: 1.5px;   
+            border-bottom: 1px solid #cbd5e1;
+            font-family: serif;      
+            transition: background-color 0.2s;
+        }
+
+        .menu-links a:hover, .menu-links a:active {
+            background-color: #f1ede2; 
+        }
+
+        .banner-liceo {
+            width: 100%;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+            background-color: #f1ede2;
+        }
+
+        .banner-liceo img {
+            width: 100%;
+            max-width: 100%;
+            height: 350px;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 0;
+            display: block;
+        }
+
+        main#inicio {
+            width: 100%;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 5%;
+            background-color: transparent;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        main#inicio h2 {
+            font-size: 1.65rem;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+        }
+
+        main#inicio p {
+            text-align: justify; 
+            font-size: 1.02rem;
+            margin-bottom: 18px;
+            color: #333333;
+        }
+
+        [contenteditable="true"] {
+            outline: 2px dashed var(--dorado-link);
+            padding: 5px;
+            background-color: #fffdf5;
+        }
+
+        .botones {
+            margin-top: 25px;
+        }
+
+        .botones a {
+            color: var(--dorado-link);
+            text-decoration: underline;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        footer {
+            width: 100%;
+            background-color: var(--crema-fondo);
+            border-top: 1px solid #cbd5e1;
+            padding: 30px 6%;
+            margin-top: 60px;
+        }
+
+        footer .contacto {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-logo {
+            height: 45px;
+            width: auto;
+        }
+
+        .footer-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #333333;
+        }
+
+        .footer-item i {
+            color: #133260; 
+            font-size: 1.1rem;
+        }
+
+        .link-admin{
+            margin-top: auto;
+            margin-bottom: 35px;
+            text-align: center;
+            color: #666666;
+            font-size: 0.85rem;
+            text-decoration: none;
+            letter-spacing: 1px;
+            font-family: sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        
+        .link-admin:hover{
+            color: var(--azul-header);
+            text-decoration: underline;
+        }
+
+        .admin-only {
+            display: none !important; 
+        }
+
+
+
+
+
+
+        .btn-editar-contexto {
+            background: var(--dorado-link);
+            color: #1a1a1a;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-left: 5px;
+        }
+
+        .btn-flotante-logout {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #b91c1c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            z-index: 9999;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            font-family: inherit;
+            font-weight: 600;
+        }
+
+        @media (min-width: 769px) {
+            footer .contacto {
+                flex-direction: row;
+                justify-content: space-between;
+                flex-wrap: nowrap;
+            }
+            .footer-item {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .banner-liceo img {
+                height: 220px;
+            }
+
+            footer .contacto {
+                flex-direction: row;
+                flex-wrap: wrap;        
+                justify-content: center; 
+                gap: 20px 25px;      
+            }
+            
+            .footer-logo {
+                width: 100%;            
+                height: 45px;
+                object-fit: contain;
+                margin-bottom: 5px;
+            }
+
+            .footer-item {
+                font-size: 0.85rem;    
+            }
+
+            .footer-item.schedule {
+                width: 100%;            
+                justify-content: center;
+                text-align: center;
+                margin-top: 5px;
+            }
+            
+            .footer-item span {
+                line-height: 1.3;
+            }
+        }
+    
+
+    /* INICIO ACTUALIZACIÓN: Rediseño visual general (tipografía Poppins, bordes redondeados y tarjetas).
+       Todo el rediseño vive en este bloque, al final de los estilos: sobrescribe lo necesario
+       y el resto del CSS original queda intacto. */
+    :root {
+        --azul-marino: #133260;
+        --radio-card: 18px;
+        --radio-control: 12px;
+    }
+
+    /* Tipografía Poppins en toda la página (incluye botones y formularios) */
+    html, body, button, input, select, textarea, .menu-links a, .link-admin {
+        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .menu-links a {
+        font-weight: 500;
+        letter-spacing: 1px;
+    }
+
+    header {
+        box-shadow: 0 6px 20px rgba(19, 50, 96, 0.25);
+    }
+
+    footer {
+        border-radius: 28px 28px 0 0;
+    }
+
+    /* Contenedores principales con bordes más redondeados */
+    main#biblioteca, main#documentos, main#galeria-seccion,
+    main#informacion, main#contenido-seccion, main#noticias {
+        border-radius: 24px;
+    }
+
+    /* Campos de formulario redondeados (!important porque las reglas originales son más específicas) */
+    .admin-controls input, .admin-controls textarea, .admin-controls select,
+    .cuadro-subir select, .cuadro-subir input,
+    .generador input, .generador select, .generador textarea,
+    .panel-emergentes input, .panel-emergentes select, .panel-emergentes textarea,
+    .input-group, .modal-content input {
+        border-radius: var(--radio-control) !important;
+    }
+
+    .admin-controls input:focus, .admin-controls textarea:focus, .admin-controls select:focus,
+    .cuadro-subir select:focus, .cuadro-subir input:focus,
+    .generador input:focus, .generador select:focus, .generador textarea:focus,
+    .panel-emergentes input:focus, .panel-emergentes select:focus, .panel-emergentes textarea:focus {
+        outline: none;
+        border-color: var(--azul-marino);
+        box-shadow: 0 0 0 3px rgba(19, 50, 96, 0.15);
+    }
+
+    .input-group:focus-within {
+        border-color: var(--azul-marino);
+        box-shadow: 0 0 0 3px rgba(19, 50, 96, 0.15);
+    }
+
+    /* Botones redondeados */
+    .btn-action, .btn-login, .btn-ingresar, .btn-publicar, .btn-imprimir,
+    .btn-seleccionar-archivo, .btn-eliminar-doc, .btn-admin-accion, .btn-editar-contexto,
+    .btn-logout, .noticia .btn-eliminar, .admin-controls button[type="submit"],
+    .btn-publicar-emergente, .btn-mini {
+        border-radius: var(--radio-control) !important;
+    }
+
+    /* Paneles y ventanas */
+    .admin-controls, .cuadro-subir, .generador, .login-card, .lightbox-content, .modal-content {
+        border-radius: 20px;
+    }
+
+    .lightbox-content img {
+        border-radius: 12px;
+    }
+
+    .hoja-wrapper {
+        border-radius: 14px;
+    }
+
+    .fecha-badge {
+        border-radius: 999px;
+    }
+
+    .banner-liceo {
+        border-radius: 0 0 28px 28px;
+    }
+
+    /* Tablas con esquinas redondeadas (separate permite que el radio se vea) */
+    .tabla-biblioteca {
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: 14px !important;
+    }
+
+    /* Tarjetas interactivas: al presionar, el borde se vuelve azul marino y la tarjeta "emerge" con brillo del mismo color */
+    #texto-resena, .mapa-contenedor {
+        background-color: #ffffff;
+        border: 2px solid #e2e8f0;
+        border-radius: var(--radio-card);
+        box-shadow: 0 4px 14px rgba(19, 50, 96, 0.06);
+        cursor: pointer;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* La reseña histórica pasa a ser una tarjeta con espacio interior */
+    #texto-resena {
+        padding: 24px 26px;
+    }
+
+    #texto-resena p:last-child {
+        margin-bottom: 0;
+    }
+
+    @media (hover: hover) {
+        #texto-resena:hover, .mapa-contenedor:hover {
+            border-color: var(--azul-marino);
+            box-shadow: 0 10px 24px rgba(19, 50, 96, 0.18);
+            transform: translateY(-3px);
+        }
+    }
+
+    #texto-resena:active, .mapa-contenedor:active,
+    #texto-resena.card-activa, .mapa-contenedor.card-activa {
+        border-color: var(--azul-marino);
+        box-shadow: 0 0 0 3px rgba(19, 50, 96, 0.14), 0 0 28px rgba(19, 50, 96, 0.38), 0 16px 36px rgba(19, 50, 96, 0.30);
+        transform: translateY(-6px);
+    }
+
+    /* INICIO ACTUALIZACIÓN: Contenedor del mapa de Google Maps (debajo de la reseña) */
+    .mapa-contenedor {
+        margin-top: 30px;
+        padding: 24px;
+    }
+
+    .mapa-contenedor h3 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--azul-header);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 4px;
+    }
+
+    .mapa-contenedor h3 i {
+        color: var(--dorado-link);
+    }
+
+    .mapa-direccion {
+        color: #555555;
+        font-size: 0.95rem;
+        margin-bottom: 16px;
+    }
+
+    .mapa-marco {
+        width: 100%;
+        height: 360px;
+        border-radius: 18px;
+        overflow: hidden;
+        border: 2px solid #e2e8f0;
+    }
+
+    .mapa-marco iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
+    }
+
+    .mapa-enlace {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 14px;
+        background: var(--azul-header);
+        color: #ffffff;
+        padding: 10px 18px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.92rem;
+        transition: box-shadow 0.25s ease, transform 0.25s ease;
+    }
+
+    .mapa-enlace:hover {
+        box-shadow: 0 0 20px rgba(19, 50, 96, 0.45);
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+        .mapa-marco {
+            height: 280px;
+        }
+    }
+    /* FIN ACTUALIZACIÓN: Mapa */
+
+    /* INICIO ACTUALIZACIÓN: Noticias emergentes (ventana modal basada solo en texto) */
+    .emergente-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(8, 20, 45, 0.78);
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
+        z-index: 20000;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .emergente-overlay.visible {
+        display: flex;
+        animation: emergente-fondo 0.35s ease both;
+    }
+
+    .emergente-caja {
+        position: relative;
+        width: 100%;
+        max-width: 640px;
+        max-height: 88vh;
+        overflow-y: auto;
+        background: #ffffff;
+        border: 3px solid var(--azul-marino);
+        border-radius: 28px;
+        padding: 36px 30px 26px;
+        box-shadow: 0 0 0 6px rgba(19, 50, 96, 0.18), 0 0 60px rgba(19, 50, 96, 0.55), 0 30px 80px rgba(0, 0, 0, 0.45);
+        animation: emergente-pop 0.55s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+    }
+
+    /* "Emerge de golpe": aparece pequeña y con rebote hasta su tamaño final */
+    @keyframes emergente-pop {
+        0%   { opacity: 0; transform: scale(0.4) translateY(40px) rotate(-2deg); }
+        100% { opacity: 1; transform: none; }
+    }
+
+    @keyframes emergente-fondo {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+
+    @keyframes emergente-punto {
+        0%, 100% { opacity: 1; }
+        50%      { opacity: 0.25; }
+    }
+
+    .emergente-cerrar {
+        position: absolute;
+        top: 14px;
+        right: 16px;
+        width: 38px;
+        height: 38px;
+        border: none;
+        border-radius: 50%;
+        background: #f1ede2;
+        color: var(--azul-marino);
+        font-size: 1.6rem;
+        line-height: 1;
+        cursor: pointer;
+        transition: background 0.2s ease, color 0.2s ease;
+        z-index: 2;
+    }
+
+    .emergente-cerrar:hover {
+        background: var(--azul-marino);
+        color: #ffffff;
+    }
+
+    .emergente-aviso {
+        position: relative;
+        overflow: hidden;
+        padding: 4px 0 26px;
+    }
+
+    .emergente-aviso + .emergente-aviso {
+        border-top: 2px dashed #cbd5e1;
+        padding-top: 28px;
+    }
+
+    /* Palabra gigante y tenue de fondo (la etiqueta), puramente tipográfica */
+    .emergente-aviso::before {
+        content: attr(data-etiqueta);
+        position: absolute;
+        right: 0;
+        top: 36px;
+        font-size: clamp(2.6rem, 11vw, 4.4rem);
+        font-weight: 800;
+        line-height: 1;
+        text-transform: uppercase;
+        color: rgba(19, 50, 96, 0.06);
+        white-space: nowrap;
+        pointer-events: none;
+    }
+
+    .emergente-cabecera {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 14px;
+    }
+
+    .emergente-num {
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: #b8a05a;
+        letter-spacing: 2px;
+    }
+
+    .emergente-etiqueta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--azul-marino);
+        color: #ffffff;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        padding: 6px 16px;
+        border-radius: 999px;
+    }
+
+    .emergente-etiqueta::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--dorado-link);
+        animation: emergente-punto 1.4s ease-in-out infinite;
+    }
+
+    .emergente-titulo {
+        position: relative;
+        font-size: clamp(1.7rem, 6vw, 2.4rem);
+        font-weight: 800;
+        line-height: 1.15;
+        letter-spacing: -0.5px;
+        color: var(--azul-marino);
+        margin-bottom: 22px;
+        padding-right: 40px;
+    }
+
+    .emergente-titulo::after {
+        content: "";
+        display: block;
+        width: 64px;
+        height: 5px;
+        border-radius: 999px;
+        background: var(--dorado-link);
+        margin-top: 14px;
+    }
+
+    .emergente-mensaje {
+        position: relative;
+        font-size: 1.05rem;
+        line-height: 1.75;
+        color: var(--texto-principal);
+        white-space: pre-line;
+    }
+
+    /* Letra capital: refuerza el diseño tipográfico */
+    .emergente-mensaje::first-letter {
+        float: left;
+        font-size: 2.6rem;
+        font-weight: 700;
+        line-height: 1;
+        padding-right: 8px;
+        color: var(--azul-marino);
+    }
+
+    .emergente-btn {
+        display: block;
+        width: 100%;
+        margin-top: 6px;
+        background: var(--azul-marino);
+        color: #ffffff;
+        border: none;
+        border-radius: 14px;
+        padding: 14px;
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: box-shadow 0.25s ease, transform 0.25s ease;
+    }
+
+    .emergente-btn:hover {
+        box-shadow: 0 0 22px rgba(19, 50, 96, 0.55);
+        transform: translateY(-2px);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .emergente-overlay.visible, .emergente-caja, .emergente-etiqueta::before {
+            animation: none;
+        }
+    }
+    /* FIN ACTUALIZACIÓN: Noticias emergentes */
+    /* FIN ACTUALIZACIÓN: Rediseño visual general */
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <div class="menu-desplegable" id="menuMovil">
+            <div class="menu-header">
+                <div class="close-menu" onclick="toggleMenu()">&times;</div>
+                <div class="logo-menu">
+                    <img src="logo.png" alt="Logo">
+                    <h1>Complejo Educativo<br>Juan Germán Roscio</h1>
+                </div>
+            </div>
+            <div class="menu-links">
+                <a href="index.html">INICIO</a>
+                <a href="misionyvision.html">MISIÓN Y VISIÓN</a>
+                <a href="Galería.html">GALERIA</a>
+                <a href="Noticias.html">NOTICIAS</a>
+                <a href="Información.html">INFORMACIÓN</a>
+                <a href="Biblioteca.html">BIBLIOTECA</a>
+                <a href="Documentos.html">DOCUMENTOS</a>
+            </div>
+            <a href="Admin.html" class="link-admin"><i class="fas fa-user-lock"></i> Acceso Administrativo</a>
+        </div>
+    </nav>
+
+    <div class="logo">
+        <img src="logo.png" alt="Logotipo del Liceo Juan Germán Roscio">
+        <h1>Complejo Educativo<br>Juan Germán Roscio</h1>
+    </div>
+</header>
+
+<div class="banner-liceo">
+    <div class="admin-only" style="position: absolute; top: 15px; right: 15px; z-index: 10;">
+        <input type="file" id="input-file-drive" style="display: none;" accept="image/*" onchange="subirFotoADrive(event)">
+        <button class="btn-editar-contexto" onclick="document.getElementById('input-file-drive').click()"><i class="fab fa-google-drive"></i> Cambiar Foto</button>
+    </div>
+    <img id="img-banner-principal" src="liceo.png" alt="Misión Sucre Aldea Juan Germán Roscio">
+</div>
+
+<main id="inicio">
+    <div class="admin-only" style="text-align: right; margin-bottom: 10px;">
+        <button id="btn-editar-texto" class="btn-editar-contexto" onclick="toggleEditarTexto()"><i class="fas fa-edit"></i> Editar Texto</button>
+    </div>
+
+    <h2>Reseña histórica: Liceo JGR</h2>
+    
+    <div id="texto-resena">
+        <p>
+            El Liceo Juan Germán Roscio es una institución baluarte del estado Guárico, cuya trayectoria se remonta a su fundación en el año 1961. 
+            Nacido de la visión humanista y el profundo compromiso social de Monseñor Rafael Chacín Soto, el plantel fue concebido para ofrecer a la juventud de Valle de la Pascua una formación integral, basada en los pilares de la Justicia Social y la Fe Cristiana.
+            Desde sus inicios en la histórica sede de la calle El Descanso, el liceo ha sido un espacio de puertas abiertas para la formación de ciudadanos críticos y ejemplares.
+        </p>
+
+        <p>
+            Su nombre rinde tributo al ilustre prócer Juan Germán Roscio Nieves, reflejando el espíritu de libertad e intelectualidad que caracteriza a nuestra comunidad educativa.
+            A través de las décadas, nuestra institución ha logrado consolidar una tradición de excelencia académica, siendo el hogar donde miles de jóvenes han forjado sus metas bajo la guía de docentes comprometidos con el desarrollo del país.
+            Hoy, el Liceo "Juan Germán Roscio" no solo representa un centro de enseñanza, sino un patrimonio cultural vivo que custodia la memoria histórica de nuestra ciudad y sigue proyectando su legado hacia las nuevas generaciones.
+        </p>
+    </div>
+    
+    <div class="botones">
+        <a href="Información.html">Más información</a>
+    </div>
+
+    <!-- NUEVO: Contenedor del mapa de Google Maps, justo debajo de la reseña histórica -->
+    <section class="mapa-contenedor" id="ubicacion">
+        <h3><i class="fas fa-map-marker-alt"></i> ¿Dónde estamos?</h3>
+        <div class="mapa-direccion">Complejo Educativo Juan Germán Roscio · Calle Retumbo, Valle de la Pascua, Estado Guárico, Venezuela</div>
+        <div class="mapa-marco">
+            <iframe
+                title="Ubicación del Complejo Educativo Juan Germán Roscio en Valle de la Pascua"
+                src="https://www.google.com/maps?q=Complejo+Educativo+Juan+Germ%C3%A1n+Roscio%2C+Valle+de+la+Pascua%2C+Gu%C3%A1rico%2C+Venezuela&amp;output=embed"
+                loading="lazy"
+                allowfullscreen
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <a class="mapa-enlace" target="_blank" rel="noopener"
+           href="https://www.google.com/maps/search/?api=1&amp;query=Complejo+Educativo+Juan+Germ%C3%A1n+Roscio%2C+Valle+de+la+Pascua%2C+Gu%C3%A1rico%2C+Venezuela">
+            <i class="fas fa-location-arrow"></i> Abrir en Google Maps
+        </a>
+    </section>
+    <!-- FIN NUEVO: Mapa -->
+
+</main>
+
+<footer>
+    <div class="contacto">
+        <img src="logo.png" alt="Escudo Footer" class="footer-logo">
+        <div class="footer-item"><i class="fas fa-at"></i> <span>@Liceo.JGR</span></div>
+        <div class="footer-item"><i class="fas fa-map-marker-alt"></i> <span>Calle Retumbo</span></div>
+        <div class="footer-item"><i class="fas fa-phone"></i> <span>+58 424-3096172</span></div>
+        <div class="footer-item schedule">
+            <i class="fas fa-clock"></i> 
+            <span>Lunes a viernes: 7:00am / 12:00pm - 12:30pm / 5:00pm</span>
+        </div>
+    </div>
+</footer>
+
+<!-- NUEVO: Ventana de noticias emergentes (aparece al entrar; se administra desde Admin.html) -->
+<div id="modal-emergente" class="emergente-overlay" role="dialog" aria-modal="true" aria-label="Noticias importantes">
+    <div class="emergente-caja">
+        <button type="button" class="emergente-cerrar" onclick="cerrarEmergente()" aria-label="Cerrar">&times;</button>
+        <div id="emergente-lista"></div>
+        <button type="button" class="emergente-btn" onclick="cerrarEmergente()">Entendido</button>
+    </div>
+</div>
+<!-- FIN NUEVO: Noticias emergentes -->
+
+<button id="btn-cerrar-sesion" class="admin-only btn-flotante-logout" onclick="cerrarSesionApp()">
+    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+</button>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+    /* ACTUALIZACIÓN: se añaden collection y getDocs para leer las noticias emergentes */
+    import { getFirestore, collection, getDocs, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBCt3kJHxHP76a2HcvOqzjsS2nXZclpKv8",
+        authDomain: "liceo-jgr.firebaseapp.com",
+        projectId: "liceo-jgr",
+        storageBucket: "liceo-jgr.firebasestorage.app",
+        messagingSenderId: "266825809601",
+        appId: "1:266825809601:web:bd1da9e6ca229f12fd5e40"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // URL del Google Apps Script (sube las imágenes a Drive)
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwwN-8eN9l9W80h7wm__z4r5yVJLe9Ul_xhrb7i0G9JUIUvh7GH1j60ThgXgUg6B1MtSQ/exec";
+
+    function formatearUrlDirectaDrive(url) {
+        if (!url) return url;
+        const fileIdMatch = url.match(/[-\w]{25,}/);
+        return fileIdMatch ? `https://lh3.googleusercontent.com/d/${fileIdMatch[0]}` : url;
+    }
+
+    async function cargarContenidoPagina() {
+        try {
+            const docRef = doc(db, "textos_generales", "inicio-home");
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                if (data.contenido) document.getElementById("texto-resena").innerHTML = data.contenido;
+                if (data.bannerUrl) document.getElementById("img-banner-principal").src = formatearUrlDirectaDrive(data.bannerUrl);
+            }
+        } catch (error) {
+            console.error("Error al cargar contenido de Firebase:", error);
+        }
+    }
+    window.addEventListener("DOMContentLoaded", cargarContenidoPagina);
+
+    window.toggleMenu = function() {
+        document.getElementById('menuMovil').classList.toggle('active');
+    };
+
+    window.cerrarSesionApp = function() {
+        signOut(auth);
+    };
+
+    onAuthStateChanged(auth, (user) => {
+        const elementosAdmin = document.querySelectorAll('.admin-only');
+        if (user) {
+            elementosAdmin.forEach(el => el.style.setProperty('display', 'inline-block', 'important'));
+        } else {
+            elementosAdmin.forEach(el => el.style.setProperty('display', 'none', 'important'));
+            document.getElementById("texto-resena").removeAttribute("contenteditable");
+            document.getElementById("btn-editar-texto").innerHTML = '<i class="fas fa-edit"></i> Editar Texto';
+            editando = false;
+        }
+    });
+
+    window.subirFotoADrive = async function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        alert("Subiendo imagen a Google Drive... Por favor espera un momento.");
+
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+            const base64Data = e.target.result;
+            
+            try {
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        nombre: file.name,
+                        tipo: "foto",
+                        base64: base64Data
+                    })
+                });
+
+                const resultadoJson = await response.json();
+
+                if (resultadoJson.resultado === "success" || resultadoJson.status === "success") {
+                    const urlDrive = formatearUrlDirectaDrive(resultadoJson.url);
+
+                    document.getElementById("img-banner-principal").src = urlDrive;
+
+                    await setDoc(doc(db, "textos_generales", "inicio-home"), {
+                        bannerUrl: urlDrive
+                    }, { merge: true });
+
+                    alert("¡Imagen guardada en Google Drive y actualizada con éxito!");
+                } else {
+                    alert("Error al subir a Drive: " + (resultadoJson.mensaje || resultadoJson.message || "Desconocido"));
+                }
+
+            } catch (error) {
+                console.error("Error al subir a Drive:", error);
+                alert("Hubo un error al conectar con Google Drive.");
+            }
+        };
+        reader.readAsDataURL(file);
+    };
+
+    let editando = false;
+    window.toggleEditarTexto = async function() {
+        const contenedor = document.getElementById("texto-resena");
+        const boton = document.getElementById("btn-editar-texto");
+
+        if (!editando) {
+            contenedor.setAttribute("contenteditable", "true");
+            contenedor.focus();
+            boton.innerHTML = '<i class="fas fa-save"></i> Guardar Cambios';
+            boton.style.background = "#133260";
+            boton.style.color = "#ffffff";
+            editando = true;
+        } else {
+            contenedor.removeAttribute("contenteditable");
+            boton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
+            
+            try {
+                await setDoc(doc(db, "textos_generales", "inicio-home"), {
+                    contenido: contenedor.innerHTML
+                }, { merge: true });
+                alert("¡Texto actualizado y guardado en Firebase con éxito!");
+            } catch (error) {
+                console.error("Error al guardar en Firebase:", error);
+                alert("Hubo un error al guardar los cambios.");
+            }
+
+            boton.innerHTML = '<i class="fas fa-edit"></i> Editar Texto';
+            boton.style.background = "var(--dorado-link)";
+            boton.style.color = "#1a1a1a";
+            editando = false;
+        }
+    };
+    // INICIO ACTUALIZACIÓN: Noticias emergentes (ventana modal que aparece al entrar a la página)
+    function escapar(texto) {
+        return String(texto ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;");
+    }
+
+    async function cargarNoticiasEmergentes() {
+        try {
+            const querySnapshot = await getDocs(collection(db, "noticias_emergentes"));
+
+            // Solo las activas, las más recientes primero
+            const activas = querySnapshot.docs
+                .map((d) => d.data())
+                .filter((d) => d.activa !== false)
+                .sort((a, b) => ((b.timestamp && b.timestamp.seconds) || 0) - ((a.timestamp && a.timestamp.seconds) || 0));
+
+            if (activas.length === 0) return;
+
+            let html = "";
+            activas.forEach((aviso, i) => {
+                const etiqueta = escapar(aviso.etiqueta || "Aviso importante");
+                const numero = activas.length > 1 ? `<span class="emergente-num">${String(i + 1).padStart(2, "0")}</span>` : "";
+
+                html += `
+                    <article class="emergente-aviso" data-etiqueta="${etiqueta}">
+                        <div class="emergente-cabecera">
+                            ${numero}
+                            <span class="emergente-etiqueta">${etiqueta}</span>
+                        </div>
+                        <h3 class="emergente-titulo">${escapar(aviso.titulo)}</h3>
+                        <p class="emergente-mensaje">${escapar(aviso.mensaje)}</p>
+                    </article>
+                `;
+            });
+
+            document.getElementById("emergente-lista").innerHTML = html;
+            document.getElementById("modal-emergente").classList.add("visible");
+            document.body.style.overflow = "hidden";
+        } catch (error) {
+            console.error("Error al cargar las noticias emergentes:", error);
+        }
+    }
+
+    window.cerrarEmergente = function() {
+        document.getElementById("modal-emergente").classList.remove("visible");
+        document.body.style.overflow = "";
+    };
+
+    // Se cierra también al tocar el fondo oscuro o con la tecla Escape
+    document.getElementById("modal-emergente").addEventListener("click", (e) => {
+        if (e.target.id === "modal-emergente") cerrarEmergente();
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") cerrarEmergente();
+    });
+
+    // Para que salga SOLO una vez por visita (y no en cada recarga), se puede usar sessionStorage:
+    // if (sessionStorage.getItem("emergenteVisto")) return;   (dentro de cargarNoticiasEmergentes)
+    // sessionStorage.setItem("emergenteVisto", "1");           (al mostrarla)
+    window.addEventListener("DOMContentLoaded", cargarNoticiasEmergentes);
+    // FIN ACTUALIZACIÓN: Noticias emergentes
+</script>
+
+<!-- INICIO ACTUALIZACIÓN: efecto "emerger" al presionar una tarjeta (activa/desactiva la clase card-activa) -->
+<script>
+    (function () {
+        var SELECTOR_TARJETAS = '#texto-resena, .mapa-contenedor';
+
+        document.addEventListener('click', function (e) {
+            var tarjeta = e.target.closest(SELECTOR_TARJETAS);
+            var activa = document.querySelector('.card-activa');
+
+            // Al tocar fuera (o en otra tarjeta) se apaga la que estaba activa
+            if (activa && activa !== tarjeta) activa.classList.remove('card-activa');
+
+            if (tarjeta) {
+                // Si el texto se está editando, solo se enciende (no se alterna) para no molestar al escribir
+                if (tarjeta.isContentEditable) tarjeta.classList.add('card-activa');
+                else tarjeta.classList.toggle('card-activa');
+            }
+        });
+    })();
+</script>
+<!-- FIN ACTUALIZACIÓN -->
+
+</body>
+</html>
